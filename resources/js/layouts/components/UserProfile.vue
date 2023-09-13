@@ -23,7 +23,7 @@ import avatar1 from '@images/avatars/avatar-1.png';
             </template>
 
             <VListItemTitle class="font-weight-semibold">
-              {{ user.name }}
+              {{ getUsers.name }}
             </VListItemTitle>
             <VListItemSubtitle>Admin</VListItemSubtitle>
           </VListItem>
@@ -87,19 +87,31 @@ import avatar1 from '@images/avatars/avatar-1.png';
 <script>
 
 import axios from 'axios';
-import { useStore } from 'vuex';
-const store = useStore();
-console.log(store);
-    const user = computed(() => store.state.auth.user)
+import { ref, onMounted, computed } from "vue";
+import { useStore } from "vuex";
+
 export default {
+
   data() {
+    const store = useStore();
+
+    const getUsers = computed(() => {
+      return store.getters.getUsers.data;
+    });
+
+    onMounted(() => {
+      store.dispatch("fetchUsers");
+    });
     return {
+      getUsers
+      
     }
   },
+  
   methods: {
     logout() {
       let token = JSON.parse(localStorage.getItem('token'));
-      console.log(token);
+      // console.log(token);
       axios
         .get('http://localhost:8000/api/logout', {
         headers: {
