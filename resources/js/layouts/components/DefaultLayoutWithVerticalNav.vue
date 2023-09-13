@@ -70,9 +70,9 @@ const upgradeBanner = computed(() => {
         heading: 'User Interface',
       }" /> -->
       <VerticalNavLink :item="{
-        title: 'Typography',
+        title: 'Users',
         icon: 'mdi-alpha-t-box-outline',
-        to: '/typography',
+        to: '/users',
       }" />
       <VerticalNavLink :item="{
         title: 'Icons',
