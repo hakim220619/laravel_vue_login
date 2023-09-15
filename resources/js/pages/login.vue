@@ -50,9 +50,15 @@
               </div>
 
               <!-- login button -->
+
+
               <VBtn block type="submit">
-                Login
+                <div v-if="loading" class="spinner-border spinner-border-sm" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+                <span v-else>Sign In</span>
               </VBtn>
+
             </VCol>
 
             <!-- create account -->
@@ -87,7 +93,8 @@ import logo from '@images/logo.svg?raw';
 import axios from 'axios';
 </script>
 <script>
-
+const loading = ref(false);
+const errorMessage = ref('');
 const isPasswordVisible = ref(false)
 export default {
   data() {
@@ -97,19 +104,20 @@ export default {
   },
   methods: {
     adddataLogin() {
+      loading.value = true;
+      errorMessage.value = '';
       axios
-        .post('http://localhost:8000/api/login', this.form)
+        .post('http://localhost:8000/api/log', this.form)
         .then(response => (
           // console.log(response.data.token),
           axios.defaults.headers.common['Authorization'] = 'Bearer' + response.data.token,
           localStorage.setItem('token', JSON.stringify(response.data.token)),
           localStorage.setItem('email', JSON.stringify(this.form.email)),
           this.$router.push({ name: 'dashboard' })
-
         ))
         .catch(err => console.log(err))
         .finally(() => {
-          this.loading = false, this.$swal.fire({
+          loading.value = false; this.$swal.fire({
             icon: 'success',
             title: 'Login successfully',
             showConfirmButton: true,
