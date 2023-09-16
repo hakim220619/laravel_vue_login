@@ -110,7 +110,16 @@ export default {
   
   methods: {
     logout() {
-      let token = JSON.parse(localStorage.getItem('token'));
+
+      let timerInterval
+      this.$swal.fire({
+        title: '',
+        html: 'Loading...',
+        timer: 1000,
+        timerProgressBar: true,
+        didOpen: () => {
+          this.$swal.showLoading()
+          let token = JSON.parse(localStorage.getItem('token'));
       // console.log(token);
       axios
         .get('http://localhost:8000/api/logout', {
@@ -124,7 +133,25 @@ export default {
           this.$router.push({ name: 'login' })
         ))
         .catch(err => console.log(err))
-        .finally(() => { this.loading = false, this.$swal('Logout berhasil!!!'), localStorage.clear() })
+        .finally(() => { this.loading = false, 
+          this.$swal.fire({
+            icon: 'success',
+            title: 'Logout berhasil!!!',
+            showConfirmButton: true,
+            timer: 1500
+          }), localStorage.clear() })
+        },
+        willClose: () => {
+
+          clearInterval(timerInterval)
+        }
+      }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === Swal.DismissReason.timer) {
+
+        }
+      })
+      
     }
   }
 }

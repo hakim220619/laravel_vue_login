@@ -1,9 +1,11 @@
 <template>
     <EasyDataTable show-index v-model:items-selected="itemsSelected" buttons-pagination :headers="headers" :items="items"
         :loading="loading">
-        <template #loading>
-            <img src="./images/delete.png" style="width: 60px; height: 100px" />
-        </template>
+
+        <!-- <img src="./images/delete.png" style="width: 60px; height: 100px" /> -->
+        <!-- <Loading></Loading> -->
+
+
         <template #item-player="{ player, avator, page }">
             <div class="player-wrapper">
                 <img class="avator" :src="avator" alt="" />
@@ -29,100 +31,63 @@
         <button @click="submitEdit">ok</button>
     </div>
 </template>
-  
 <script lang="ts">
+import axios from "axios";
 import { defineComponent, reactive, ref } from "vue";
 import { Header, Item } from "vue3-easy-data-table";
-
 export default defineComponent({
     components: {},
+    async mounted() {
+        await this.getData();
+
+    },
+    methods: {
+        async getData() {
+            let token = JSON.parse(localStorage.getItem('token'));
+            const data = await axios.get(
+                'http://127.0.0.1:8000/api/users', {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + token
+
+                }
+            }
+            ).then((response) => this.DataUsers = response.data.data
+            );
+            this.DataUsers = data
+        },
+    },
+
     setup() {
+
         const headers: Header[] = [
-            { text: "PLAYER", value: "player" },
-            { text: "TEAM", value: "team" },
-            { text: "NUMBER", value: "number" },
-            { text: "POSITION", value: "position" },
-            { text: "HEIGHT", value: "info.height" },
-            { text: "WEIGHT (lbs)", value: "info.weight", sortable: true },
-            { text: "LAST ATTENDED", value: "lastAttended" },
-            { text: "COUNTRY", value: "country" },
+            { text: "Id", value: "id" },
+            { text: "Name", value: "name" },
+            { text: "Email", value: "email" },
+
             { text: "Operation", value: "operation" },
         ];
-        const itemsSelected: Item[] = ref([]);
-        const items: Item[] = ref([]);
+        const items = ref<Item[]>([]);
         const loading = ref(true);
-        setTimeout(() => {
+        setTimeout(async () => {
             loading.value = false;
-            items.value = [
-                {
-                    id: 1,
-                    player: "Stephen Curry",
-                    page: "https://www.nba.com/player/201939/stephen-curry",
-                    avator:
-                        "https://github.com/HC200ok/vue3-easy-data-table/blob/main/images/nba/Stephen.png?raw=true",
-                    teamName: "GSW",
-                    teamUrl: "https://www.nba.com/team/1610612744/warriors",
-                    number: 30,
-                    position: "G",
-                    info: {
-                        height: "6-2",
-                        weight: 185,
-                    },
-                    lastAttended: "Davidson",
-                    country: "USA",
-                },
-                {
-                    id: 2,
-                    player: "Lebron James",
-                    page: "https://www.nba.com/player/2544/lebron-james",
-                    avator:
-                        "https://github.com/HC200ok/vue3-easy-data-table/blob/main/images/nba/lebron.png?raw=true",
-                    teamName: "LAL",
-                    teamUrl: "https://www.nba.com/team/1610612747/lakers",
-                    number: 6,
-                    position: "F",
-                    info: {
-                        height: "6-9",
-                        weight: 250,
-                    },
-                    lastAttended: "St. Vincent-St. Mary HS (OH)",
-                    country: "USA",
-                },
-                {
-                    id: 3,
-                    player: "Kevin Durant",
-                    page: "https://www.nba.com/player/201142/kevin-durant",
-                    avator:
-                        "https://github.com/HC200ok/vue3-easy-data-table/blob/main/images/nba/Kevin.png?raw=true",
-                    teamName: "BKN",
-                    teamUrl: "https://www.nba.com/team/1610612751/nets",
-                    number: 7,
-                    position: "F",
-                    info: {
-                        height: "6-10",
-                        weight: 240,
-                    },
-                    lastAttended: "Texas-Austin",
-                    country: "USA",
-                },
-                {
-                    id: 4,
-                    player: "Giannis Antetokounmpo",
-                    page: "https://www.nba.com/player/203507/giannis-antetokounmpo",
-                    avator:
-                        "https://github.com/HC200ok/vue3-easy-data-table/blob/main/images/nba/Giannis.png?raw=true",
-                    teamName: "MIL",
-                    teamUrl: "https://www.nba.com/team/1610612749/bucks",
-                    number: 34,
-                    position: "F",
-                    info: {
-                        height: "6-11",
-                        weight: 242,
-                    },
-                    lastAttended: "Filathlitikos",
-                    country: "Greece",
-                },
-            ];
+            let token = JSON.parse(localStorage.getItem('token'));
+            const data = await axios.get(
+                'http://127.0.0.1:8000/api/users', {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + token
+
+                }
+            }
+            ).then((response) => response.data.data
+            );
+            items.value = data;
+
+            console.log(data);
+
+
+
         }, 2000);
 
         const isEditing = ref(false);
@@ -152,6 +117,7 @@ export default defineComponent({
         };
 
         return {
+            DataUsers: [],
             loading,
             submitEdit,
             headers,

@@ -32,6 +32,15 @@ class AuthController extends Controller
             'user' => $user,
         ]);
     }
+    function getUsers(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Users',
+            'data' => $user,
+        ]);
+    }
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();

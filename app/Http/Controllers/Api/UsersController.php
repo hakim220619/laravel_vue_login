@@ -14,7 +14,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         // dd($request->all());
-        $user = User::where('email', $request->email)->first();
+        $user = User::all();
         return response()->json([
             'success' => true,
             'message' => 'Data Users',

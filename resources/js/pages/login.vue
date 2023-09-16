@@ -2,6 +2,7 @@
 
 <template>
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
+
     <VCard class="auth-card pa-4 pt-7" max-width="448">
       <VCardItem class="justify-center">
         <template #prepend>
@@ -54,7 +55,9 @@
 
               <VBtn block type="submit">
                 <div v-if="loading" class="spinner-border spinner-border-sm" role="status">
-                  <span class="sr-only">Loading...</span>
+                  <span class="sr-only">
+                    Loading...
+                  </span>
                 </div>
                 <span v-else>Sign In</span>
               </VBtn>
@@ -84,6 +87,7 @@
       </VCardText>
     </VCard>
   </div>
+  <Loading></Loading>
 </template>
 
 
@@ -103,27 +107,53 @@ export default {
     }
   },
   methods: {
+
     adddataLogin() {
-      loading.value = true;
-      errorMessage.value = '';
-      axios
-        .post('http://localhost:8000/api/log', this.form)
-        .then(response => (
-          // console.log(response.data.token),
-          axios.defaults.headers.common['Authorization'] = 'Bearer' + response.data.token,
-          localStorage.setItem('token', JSON.stringify(response.data.token)),
-          localStorage.setItem('email', JSON.stringify(this.form.email)),
-          this.$router.push({ name: 'dashboard' })
-        ))
-        .catch(err => console.log(err))
-        .finally(() => {
-          loading.value = false; this.$swal.fire({
-            icon: 'success',
-            title: 'Login successfully',
-            showConfirmButton: true,
-            timer: 1500
-          })
-        })
+      let timerInterval
+      this.$swal.fire({
+        title: '',
+        html: 'Loading...',
+        timer: 1000,
+        timerProgressBar: true,
+        didOpen: () => {
+          this.$swal.showLoading()
+          loading.value = true;
+          errorMessage.value = '';
+          axios
+            .post('http://localhost:8000/api/login', this.form)
+            .then(response => (
+              // console.log(response.data.token),
+              axios.defaults.headers.common['Authorization'] = 'Bearer' + response.data.token,
+              localStorage.setItem('token', JSON.stringify(response.data.token)),
+              localStorage.setItem('email', JSON.stringify(this.form.email)),
+              this.$router.push({ name: 'dashboard' })
+            ))
+            .catch(err => console.log(err))
+            .finally(() => {
+              setInterval(() => {
+                loading.value = false;
+              }, 2000).then(this.$swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Login successfully',
+                showConfirmButton: false,
+                timer: 1500
+              }));
+
+
+            })
+        },
+        willClose: () => {
+
+          clearInterval(timerInterval)
+        }
+      }).then((result) => {
+        /* Read more about handling dismissals below */
+        if (result.dismiss === Swal.DismissReason.timer) {
+
+        }
+      })
+
     }
   }
 }

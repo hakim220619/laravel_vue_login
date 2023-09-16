@@ -14,7 +14,7 @@ export default createStore({
                 let token = JSON.parse(localStorage.getItem('token'));
                 // console.log(email);
                 const data = await axios.post(
-                    'http://127.0.0.1:8000/api/users', { 'email': email }, {
+                    'http://127.0.0.1:8000/api/getUsers', { 'email': email }, {
 
                     headers: {
                         Accept: "application/json",
