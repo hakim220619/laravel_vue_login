@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -35,7 +37,18 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        DB::table('users')->insert([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'password' =>  Hash::make($request->password),
+            'created_at' => now()
+        ]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Add Data Users Berhasil',
+        ]);
     }
 
     /**

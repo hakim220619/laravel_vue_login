@@ -9,10 +9,7 @@ import DemoFormLayoutVerticalFormWithIcons from '@/views/pages/form-layouts/Demo
 <template>
   <div>
     <VRow>
-      <VCol
-        cols="12"
-        md="6"
-      >
+      <VCol cols="12" md="6">
         <!-- 👉 Horizontal Form -->
         <VCard title="Horizontal Form">
           <VCardText>
@@ -20,10 +17,7 @@ import DemoFormLayoutVerticalFormWithIcons from '@/views/pages/form-layouts/Demo
           </VCardText>
         </VCard>
       </VCol>
-      <VCol
-        cols="12"
-        md="6"
-      >
+      <VCol cols="12" md="6">
         <!-- 👉 Horizontal Form with Icons -->
         <VCard title="Horizontal Form with Icons">
           <VCardText>
@@ -31,10 +25,7 @@ import DemoFormLayoutVerticalFormWithIcons from '@/views/pages/form-layouts/Demo
           </VCardText>
         </VCard>
       </VCol>
-      <VCol
-        cols="12"
-        md="6"
-      >
+      <VCol cols="12" md="6">
         <!-- 👉 Vertical Form -->
         <VCard title="Vertical Form">
           <VCardText>
@@ -42,10 +33,7 @@ import DemoFormLayoutVerticalFormWithIcons from '@/views/pages/form-layouts/Demo
           </VCardText>
         </VCard>
       </VCol>
-      <VCol
-        cols="12"
-        md="6"
-      >
+      <VCol cols="12" md="6">
         <!-- 👉 Vertical Form with Icons -->
         <VCard title="Vertical Form with Icons">
           <VCardText>

@@ -113,7 +113,7 @@ export default {
       this.$swal.fire({
         title: '',
         html: 'Loading...',
-        timer: 1000,
+        timer: 3000,
         timerProgressBar: true,
         didOpen: () => {
           this.$swal.showLoading()

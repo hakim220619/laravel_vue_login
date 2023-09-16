@@ -1,35 +1,50 @@
 <template>
-    <EasyDataTable show-index v-model:items-selected="itemsSelected" buttons-pagination :headers="headers" :items="items"
-        :loading="loading">
+    <VRow>
+        <VCol cols="12" md="12">
 
-        <!-- <img src="./images/delete.png" style="width: 60px; height: 100px" /> -->
-        <!-- <Loading></Loading> -->
+            <!-- 👉 Horizontal Form -->
+            <VCard title="Users">
+                <VCardText>
+                    <VBtn to="/addUsers">Add</VBtn>
+                </VCardText>
+                <VCardText>
 
 
-        <template #item-player="{ player, avator, page }">
-            <div class="player-wrapper">
-                <img class="avator" :src="avator" alt="" />
-                <a target="_blank" :href="page">{{ player }}</a>
-            </div>
-        </template>
-        <template #item-team="{ teamName, teamUrl }">
-            <a target="_blank" :href="teamUrl">{{ teamName }}</a>
-        </template>
-        <template #item-operation="item">
-            <div class="operation-wrapper">
-                <img src="./images/delete.png" class="operation-icon" @click="deleteItem(item)" />
-                <img src="./images/edit.png" class="operation-icon" @click="editItem(item)" />
-            </div>
-        </template>
-    </EasyDataTable>
+                    <EasyDataTable show-index v-model:items-selected="itemsSelected" buttons-pagination :headers="headers"
+                        :items="items" :loading="loading">
 
-    <div class="edit-item" v-if="isEditing">
-        height:<input type="text" v-model="editingItem.height" />
-        <br />
-        weight:<input type="text" v-model="editingItem.weight" />
-        <br />
-        <button @click="submitEdit">ok</button>
-    </div>
+                        <!-- <img src="./images/delete.png" style="width: 60px; height: 100px" /> -->
+                        <!-- <Loading></Loading> -->
+
+
+                        <template #item-player="{ player, avator, page }">
+                            <div class="player-wrapper">
+                                <img class="avator" :src="avator" alt="" />
+                                <a target="_blank" :href="page">{{ player }}</a>
+                            </div>
+                        </template>
+                        <template #item-team="{ teamName, teamUrl }">
+                            <a target="_blank" :href="teamUrl">{{ teamName }}</a>
+                        </template>
+                        <template #item-operation="item">
+                            <div class="operation-wrapper">
+                                <img src="./images/delete.png" class="operation-icon" @click="deleteItem(item)" />
+                                <img src="./images/edit.png" class="operation-icon" @click="editItem(item)" />
+                            </div>
+                        </template>
+                    </EasyDataTable>
+
+                    <div class="edit-item" v-if="isEditing">
+                        height:<input type="text" v-model="editingItem.height" />
+                        <br />
+                        weight:<input type="text" v-model="editingItem.weight" />
+                        <br />
+                        <button @click="submitEdit">ok</button>
+                    </div>
+                </VCardText>
+            </VCard>
+        </VCol>
+    </VRow>
 </template>
 <script lang="ts">
 import axios from "axios";
@@ -63,6 +78,7 @@ export default defineComponent({
         const headers: Header[] = [
             { text: "Id", value: "id" },
             { text: "Name", value: "name" },
+            { text: "Phone", value: "phone" },
             { text: "Email", value: "email" },
 
             { text: "Operation", value: "operation" },
