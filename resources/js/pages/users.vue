@@ -5,13 +5,13 @@
             <!-- 👉 Horizontal Form -->
             <VCard title="Users">
                 <VCardText>
-                    <VBtn to="/addUsers">Add</VBtn>
+                    <VBtn class="text-end" to="/addUsers">Add</VBtn>
                 </VCardText>
                 <VCardText>
 
 
-                    <EasyDataTable show-index v-model:items-selected="itemsSelected" buttons-pagination :headers="headers"
-                        :items="items" :loading="loading">
+                    <EasyDataTable show-index buttons-pagination v-model:items-selected="itemsSelected" :headers="headers"
+                        :rows-per-page="10" :items="items" :loading="loading" theme-color="#1d90ff" border-cell>
 
                         <!-- <img src="./images/delete.png" style="width: 60px; height: 100px" /> -->
                         <!-- <Loading></Loading> -->
@@ -52,10 +52,7 @@ import { defineComponent, reactive, ref } from "vue";
 import { Header, Item } from "vue3-easy-data-table";
 export default defineComponent({
     components: {},
-    async mounted() {
-        await this.getData();
 
-    },
     methods: {
         async getData() {
             let token = JSON.parse(localStorage.getItem('token'));
@@ -71,40 +68,83 @@ export default defineComponent({
             );
             this.DataUsers = data
         },
+
+        deleteItem: function (val: Item) {
+            this.$swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    setTimeout(async () => {
+
+                        let token = JSON.parse(localStorage.getItem('token'));
+                        const data = await axios.get(
+                            'http://127.0.0.1:8000/api/delete/' + val.id, {
+                            headers: {
+                                Accept: "application/json",
+                                Authorization: "Bearer " + token
+
+                            }
+                        }
+                        ).then((response) => response.data.data,
+
+
+                        );
+
+                    }, 500);
+                    this.$swal.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
+                }
+            }).getListings()
+        }
+
     },
 
     setup() {
 
+        // onMounted(() => {
+        //     getListings();
+        // });
+        getListings();
         const headers: Header[] = [
             { text: "Id", value: "id" },
             { text: "Name", value: "name" },
             { text: "Phone", value: "phone" },
             { text: "Email", value: "email" },
-
             { text: "Operation", value: "operation" },
         ];
         const items = ref<Item[]>([]);
         const loading = ref(true);
-        setTimeout(async () => {
-            loading.value = false;
-            let token = JSON.parse(localStorage.getItem('token'));
-            const data = await axios.get(
-                'http://127.0.0.1:8000/api/users', {
-                headers: {
-                    Accept: "application/json",
-                    Authorization: "Bearer " + token
+        function getListings() {
+            setTimeout(async () => {
+                loading.value = false;
+                let token = JSON.parse(localStorage.getItem('token'));
+                const data = await axios.get(
+                    'http://127.0.0.1:8000/api/users', {
+                    headers: {
+                        Accept: "application/json",
+                        Authorization: "Bearer " + token
 
+                    }
                 }
-            }
-            ).then((response) => response.data.data
-            );
-            items.value = data;
+                ).then((response) => response.data.data
+                );
+                items.value = data;
 
-            console.log(data);
-
+                // console.log(data);
 
 
-        }, 2000);
+
+            }, 500);
+        }
 
         const isEditing = ref(false);
         const editingItem = reactive({
@@ -113,9 +153,7 @@ export default defineComponent({
             id: 0,
         });
 
-        const deleteItem = (val: Item) => {
-            items.value = items.value.filter((item) => item.id !== val.id);
-        };
+
 
         const editItem = (val: Item) => {
             isEditing.value = true;
@@ -138,7 +176,6 @@ export default defineComponent({
             submitEdit,
             headers,
             items,
-            deleteItem,
             editItem,
             editingItem,
             isEditing,
