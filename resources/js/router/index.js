@@ -37,6 +37,11 @@ const router = createRouter({
           component: () => import('../pages/addUsers.vue'),
         },
         {
+          name: 'editUsers',
+          path: 'editUsers',
+          component: () => import('../pages/editUsers.vue'),
+        },
+        {
           path: 'icons',
           component: () => import('../pages/icons.vue'),
         },

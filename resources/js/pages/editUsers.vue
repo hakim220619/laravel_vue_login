@@ -37,7 +37,7 @@
                                         Submit
                                     </VBtn>
 
-                                    <VBtn color="secondary" to="users" variant="tonal">
+                                    <VBtn color="secondary" to="/users" variant="tonal">
                                         Kembali
                                     </VBtn>
                                 </VCol>
@@ -56,32 +56,45 @@ const router = useRouter();
 
 
 export default {
+    props: ["id"],
 
     data() {
+
+
+
         return {
+
             formData: {
-                name: ref(''),
-                email: ref(''),
-                phone: ref(),
-                password: ref(),
-                checkbox: ref(false)
+                name: this.$nextTick(this.getUsersEdit).name,
+                email: this.$nextTick(this.getUsersEdit).email,
+                phone: this.$nextTick(this.getUsersEdit).phone,
+                password: this.$nextTick(this.getUsersEdit).password,
+                checkbox: ref(false),
+
             },
 
 
         }
     },
+    mounted: function () {
+        let data = this.$nextTick(this.getUsersEdit)
+    },
     methods: {
-        storeUsers() {
+
+        async getUsersEdit() {
             //init formData
             let token = JSON.parse(localStorage.getItem('token'));
+
             // let formData = new FormData();
-            var data = {
-                name: this.formData.name,
-                email: this.formData.email,
-                phone: this.formData.phone,
-                password: this.formData.password,
-            }
-            console.log(data);
+            // let formData = this.data
+            // console.log(formData);
+            // var dataUsers = {
+            //     name: formData.name,
+            //     email: formData.email,
+            //     phone: formData.phone,
+            //     password: formData.password,
+            // }
+            // console.log(data);
             //assign state value to formData
             // formData.append("name", name.value);
             // formData.append("email", email.value);
@@ -91,54 +104,25 @@ export default {
             //store data with API
 
 
-            let timerInterval
-            this.$swal.fire({
-                title: '',
-                html: 'Loading...',
-                timer: 3000,
-                timerProgressBar: true,
-                didOpen: () => {
-                    this.$swal.showLoading()
-                    axios
-                        .post('http://localhost:8000/api/addUsers', data, {
-                            headers: {
-                                Accept: "application/json",
-                                Authorization: "Bearer " + token
-                            }
-                        }).then(response => (
-                            // console.log(response.data.token),
 
-                            this.$router.push({ name: 'users' })
-                        ))
-                        .catch(err => console.log(err))
-                        .finally(() => {
-                            const Toast = this.$swal.mixin(
-                                {
-                                    toast: true,
-                                    position: 'top-end',
-                                    showConfirmButton: false,
-                                    timer: 3000,
-                                    timerProgressBar: true,
+            setTimeout(async () => {
+                // loading.value = false;
+                let token = JSON.parse(localStorage.getItem('token'));
+                const data = await axios.get(
+                    'http://127.0.0.1:8000/api/showUsers/' + this.$route.query.id, {
+                    headers: {
+                        Accept: "application/json",
+                        Authorization: "Bearer " + token
 
-                                })
-                            Toast.fire({
-                                icon: "success",
-                                title: "Insert Users Success..",
-                            });
-
-
-                        })
-                },
-                willClose: () => {
-
-                    clearInterval(timerInterval)
+                    }
                 }
-            }).then((result) => {
-                /* Read more about handling dismissals below */
-                if (result.dismiss === Swal.DismissReason.timer) {
+                ).then((response) => response.data.data
+                );
+                // items.value = data;
 
-                }
-            })
+                // console.log(data);
+            }, 500);
+
         }
     }
 };

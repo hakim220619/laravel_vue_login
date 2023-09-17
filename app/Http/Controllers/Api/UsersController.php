@@ -54,9 +54,14 @@ class UsersController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $user = User::where('id', $id)->first();
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Users',
+            'data' => $user,
+        ]);
     }
 
     /**

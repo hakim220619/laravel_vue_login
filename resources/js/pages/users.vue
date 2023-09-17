@@ -1,12 +1,15 @@
 <template>
+    <!-- <h3>Users</h3> -->
     <VRow>
         <VCol cols="12" md="12">
 
             <!-- 👉 Horizontal Form -->
-            <VCard title="Users">
+            <VCard title="">
                 <VCardText>
                     <VBtn class="text-end" to="/addUsers">Add</VBtn>
+
                 </VCardText>
+
                 <VCardText>
 
 
@@ -28,6 +31,7 @@
                         </template>
                         <template #item-operation="item">
                             <div class="operation-wrapper">
+                                <!-- <img src="./images/delete.png" class="operation-icon" @click="getListings()" /> -->
                                 <img src="./images/delete.png" class="operation-icon" @click="deleteItem(item)" />
                                 <img src="./images/edit.png" class="operation-icon" @click="editItem(item)" />
                             </div>
@@ -48,29 +52,59 @@
 </template>
 <script lang="ts">
 import axios from "axios";
-import { defineComponent, reactive, ref } from "vue";
+import Swal from 'sweetalert2';
+import { defineComponent, onMounted, reactive, ref } from "vue";
+import { useRoute } from 'vue-router';
 import { Header, Item } from "vue3-easy-data-table";
+const router = useRoute()
+
 export default defineComponent({
     components: {},
 
-    methods: {
-        async getData() {
-            let token = JSON.parse(localStorage.getItem('token'));
-            const data = await axios.get(
-                'http://127.0.0.1:8000/api/users', {
-                headers: {
-                    Accept: "application/json",
-                    Authorization: "Bearer " + token
 
+    setup() {
+
+        const headers: Header[] = [
+            { text: "Id", value: "id" },
+            { text: "Name", value: "name" },
+            { text: "Phone", value: "phone" },
+            { text: "Email", value: "email" },
+            { text: "Operation", value: "operation" },
+        ];
+        const items = ref<Item[]>([]);
+        const loading = ref(true);
+        onMounted(() => {
+            ShowData()
+        })
+        async function ShowData() {
+            setTimeout(async () => {
+                loading.value = false;
+                let token = JSON.parse(localStorage.getItem('token'));
+                const data = await axios.get(
+                    'http://127.0.0.1:8000/api/users', {
+                    headers: {
+                        Accept: "application/json",
+                        Authorization: "Bearer " + token
+
+                    }
                 }
-            }
-            ).then((response) => this.DataUsers = response.data.data
-            );
-            this.DataUsers = data
-        },
+                ).then((response) => response.data.data
+                );
+                items.value = data;
 
-        deleteItem: function (val: Item) {
-            this.$swal.fire({
+                // console.log(data);
+            }, 500);
+        }
+
+        const isEditing = ref(false);
+        const editingItem = reactive({
+            height: "",
+            weight: "",
+            id: 0,
+        });
+        const deleteItem = (val: Item) => {
+
+            Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
                 icon: 'warning',
@@ -97,71 +131,27 @@ export default defineComponent({
                         );
 
                     }, 500);
-                    this.$swal.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
+                    const Toast = Swal.mixin(
+                        {
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+
+                        })
+                    Toast.fire({
+                        icon: "success",
+                        title: "Delete Users Success..",
+                    });
+                    items.value = items.value.filter((item) => item.id !== val.id);
                 }
-            }).getListings()
-        }
-
-    },
-
-    setup() {
-
-        // onMounted(() => {
-        //     getListings();
-        // });
-        getListings();
-        const headers: Header[] = [
-            { text: "Id", value: "id" },
-            { text: "Name", value: "name" },
-            { text: "Phone", value: "phone" },
-            { text: "Email", value: "email" },
-            { text: "Operation", value: "operation" },
-        ];
-        const items = ref<Item[]>([]);
-        const loading = ref(true);
-        function getListings() {
-            setTimeout(async () => {
-                loading.value = false;
-                let token = JSON.parse(localStorage.getItem('token'));
-                const data = await axios.get(
-                    'http://127.0.0.1:8000/api/users', {
-                    headers: {
-                        Accept: "application/json",
-                        Authorization: "Bearer " + token
-
-                    }
-                }
-                ).then((response) => response.data.data
-                );
-                items.value = data;
-
-                // console.log(data);
-
-
-
-            }, 500);
-        }
-
-        const isEditing = ref(false);
-        const editingItem = reactive({
-            height: "",
-            weight: "",
-            id: 0,
-        });
-
-
-
-        const editItem = (val: Item) => {
-            isEditing.value = true;
-            const { height, weight, id } = val;
-            editingItem.height = height;
-            editingItem.weight = weight;
-            editingItem.id = id;
+            })
         };
+
+
+
+
 
         const submitEdit = () => {
             isEditing.value = false;
@@ -176,11 +166,19 @@ export default defineComponent({
             submitEdit,
             headers,
             items,
-            editItem,
+            deleteItem,
+            ShowData,
             editingItem,
             isEditing,
         };
     },
+    methods: {
+        editItem: function (val: Item) {
+            this.$router.push({ path: 'editUsers', query: { id: val.id } })
+        }
+
+    },
+
 });
 </script>
   
