@@ -4,9 +4,9 @@
     <div>
         <VRow>
             <VCol cols="12" md="12">
-                <VCard title="Vertical Form with Icons">
+                <VCard title="Edit Users">
                     <VCardText>
-                        <VForm @submit.prevent="storeUsers()">
+                        <VForm @submit.prevent="updateUsers()">
                             <VRow>
                                 <VCol cols="6">
                                     <VTextField v-model="formData.name" prepend-inner-icon="bx-user" label="First Name"
@@ -28,9 +28,7 @@
                                         type="password" placeholder="············" />
                                 </VCol>
 
-                                <VCol cols="12">
-                                    <VCheckbox v-model="formData.checkbox" label="Remember me" />
-                                </VCol>
+
 
                                 <VCol cols="12">
                                     <VBtn type="submit" class="me-2">
@@ -64,64 +62,60 @@ export default {
 
         return {
 
-            formData: {
-                name: this.$nextTick(this.getUsersEdit).name,
-                email: this.$nextTick(this.getUsersEdit).email,
-                phone: this.$nextTick(this.getUsersEdit).phone,
-                password: this.$nextTick(this.getUsersEdit).password,
-                checkbox: ref(false),
-
-            },
+            formData: [],
 
 
         }
     },
     mounted: function () {
-        let data = this.$nextTick(this.getUsersEdit)
+        this.$nextTick(this.getUsersEdit)
     },
     methods: {
 
         async getUsersEdit() {
             //init formData
             let token = JSON.parse(localStorage.getItem('token'));
+            const data = await axios.get(
+                'http://127.0.0.1:8000/api/showUsers/' + this.$route.query.id, {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + token
 
-            // let formData = new FormData();
-            // let formData = this.data
-            // console.log(formData);
-            // var dataUsers = {
-            //     name: formData.name,
-            //     email: formData.email,
-            //     phone: formData.phone,
-            //     password: formData.password,
-            // }
-            // console.log(data);
-            //assign state value to formData
-            // formData.append("name", name.value);
-            // formData.append("email", email.value);
-            // formData.append("phone", phone.value);
-            // formData.append("password", password.value);
-
-            //store data with API
-
-
-
-            setTimeout(async () => {
-                // loading.value = false;
-                let token = JSON.parse(localStorage.getItem('token'));
-                const data = await axios.get(
-                    'http://127.0.0.1:8000/api/showUsers/' + this.$route.query.id, {
-                    headers: {
-                        Accept: "application/json",
-                        Authorization: "Bearer " + token
-
-                    }
                 }
-                ).then((response) => response.data.data
-                );
-                // items.value = data;
+            }
+            ).then((response) => this.formData = response.data.data
+            );
+            // items.value = data;
 
-                // console.log(data);
-            }, 500);
+            // console.log(data);
+
+
+        },
+        updateUsers() {
+            let token = JSON.parse(localStorage.getItem('token'));
+            var dataEdit = {
+                name: this.formData.name,
+                email: this.formData.email,
+                phone: this.formData.phone,
+                password: this.formData.password,
+            }
+            console.log(this.formData);
+            //init formData
+
+            const data = axios.post(
+                'http://127.0.0.1:8000/api/updateUsers/', dataEdit, {
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "Bearer " + token
+
+                }
+            }
+            ).then((response) => response.data.data
+            );
+            // items.value = data;
+
+            // console.log(data);
+
 
         }
     }

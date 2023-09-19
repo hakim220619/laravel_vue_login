@@ -4,7 +4,7 @@
     <div>
         <VRow>
             <VCol cols="12" md="12">
-                <VCard title="Vertical Form with Icons">
+                <VCard title="Add Users">
                     <VCardText>
                         <VForm @submit.prevent="storeUsers()">
                             <VRow>
@@ -28,9 +28,7 @@
                                         type="password" placeholder="············" />
                                 </VCol>
 
-                                <VCol cols="12">
-                                    <VCheckbox v-model="formData.checkbox" label="Remember me" />
-                                </VCol>
+                                
 
                                 <VCol cols="12">
                                     <VBtn type="submit" class="me-2">
