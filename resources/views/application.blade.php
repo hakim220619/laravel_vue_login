@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sneat - Vuetify Vuejs Admin Template</title>
     <link rel="stylesheet" type="text/css" href="{{ asset('loader.css') }}" />
+    <link rel="canonical" href="https://themeselection.com/item/sneat-bootstrap-html-laravel-admin-template/">
     @vite(['resources/js/main.js'])
 </head>
 

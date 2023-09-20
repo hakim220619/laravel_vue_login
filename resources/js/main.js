@@ -15,6 +15,7 @@ import { createApp } from 'vue'
 import VueAxios from 'vue-axios'
 
 import store from "@/store"
+import MasterData from '@/views/pages/master-data/masterData.vue'
 import 'es6-promise/auto'
 import 'sweetalert2/dist/sweetalert2.min.css'
 import VueSweetalert2 from 'vue-sweetalert2'
@@ -34,6 +35,7 @@ app.use(VueAxios, axios)
 app.use(VueSweetalert2)
 app.use(router)
 app.use(store)
+app.use(MasterData)
 
 app.component('EasyDataTable', Vue3EasyDataTable);
 

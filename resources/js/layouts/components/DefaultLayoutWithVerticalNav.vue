@@ -4,7 +4,6 @@ import upgradeBannerLight from '@images/pro/upgrade-banner-light.png'
 import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
 import { useTheme } from 'vuetify'
-
 // Components
 import Footer from '@/layouts/components/Footer.vue'
 import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
@@ -15,7 +14,12 @@ const vuetifyTheme = useTheme()
 const upgradeBanner = computed(() => {
   return vuetifyTheme.global.name.value === 'light' ? upgradeBannerLight : upgradeBannerDark
 })
+
+// const isOpenA = false,
+// isOpen = false,
+
 </script>
+
 
 <template>
   <VerticalNavLayout>
@@ -64,23 +68,25 @@ const upgradeBanner = computed(() => {
         to: '/dashboard',
       }" />
 
+
+
       <!-- 👉 Pages -->
       <!-- 👉 User Interface -->
       <!-- <VerticalNavSectionTitle :item="{
         heading: 'User Interface',
       }" /> -->
-      <VerticalNavLink :item="{
+      <!-- <VerticalNavLink :item="{
         title: 'Users',
         icon: 'mdi-alpha-t-box-outline',
         to: '/users',
-      }" />
+      }" /> -->
       <VerticalNavLink :item="{
         title: 'Icons',
         icon: 'bx-show',
         to: '/icons',
       }" />
       <VerticalNavLink :item="{
-        title: 'Cards',
+        title: 'Master Data',
         icon: 'bx-credit-card',
         to: '/cards',
       }" />
@@ -116,5 +122,37 @@ const upgradeBanner = computed(() => {
   line-height: 1.3125rem;
   padding-block: 0.125rem;
   padding-inline: 0.25rem;
+}
+
+.github-corner:hover .octo-arm {
+  animation: octocat-wave 560ms ease-in-out
+}
+
+@keyframes octocat-wave {
+
+  0%,
+  100% {
+    transform: rotate(0)
+  }
+
+  20%,
+  60% {
+    transform: rotate(-25deg)
+  }
+
+  40%,
+  80% {
+    transform: rotate(10deg)
+  }
+}
+
+@media (max-width:500px) {
+  .github-corner:hover .octo-arm {
+    animation: none
+  }
+
+  .github-corner .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+  }
 }
 </style>
