@@ -29,17 +29,32 @@ const router = createRouter({
         {
           name: 'users',
           path: 'users',
-          component: () => import('../pages/users.vue'),
+          component: () => import('../pages/users/users.vue'),
         },
         {
           name: 'addUsers',
           path: 'addUsers',
-          component: () => import('../pages/addUsers.vue'),
+          component: () => import('../pages/users/addUsers.vue'),
         },
         {
           name: 'editUsers',
           path: 'editUsers',
-          component: () => import('../pages/editUsers.vue'),
+          component: () => import('../pages/users/editUsers.vue'),
+        },
+        {
+          name: 'students',
+          path: 'students',
+          component: () => import('../pages/students/students.vue'),
+        },
+        {
+          name: 'addStudents',
+          path: 'addStudents',
+          component: () => import('../pages/students/addStudents.vue'),
+        },
+        {
+          name: 'editStudents',
+          path: 'editStudents',
+          component: () => import('../pages/students/editStudents.vue'),
         },
         {
           path: 'icons',

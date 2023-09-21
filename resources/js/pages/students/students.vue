@@ -2,24 +2,7 @@
 
 
 <template>
-    <VRow>
-        <VCol cols="12" md="12">
-
-            <!-- 👉 Horizontal Form -->
-            <VCard title="">
-                <VCardText>
-                    <VBtn class="text-end" to="/users" style="width: 15%;">Admin</VBtn>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <VBtn class="text-end" to="/addUsers" style="width: 15%;">Siswa</VBtn>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <VBtn class="text-end" to="/addUsers" style="width: 15%;">Kelas</VBtn>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <VBtn class="text-end" to="/addUsers" style="width: 15%;">Alumni</VBtn>
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </VCardText>
-
-            </VCard>
-        </VCol>
-    </VRow>
+    <MasterData></MasterData>
     <!-- <h3>Users</h3> -->
     <VRow>
         <VCol cols="12" md="12">
@@ -72,6 +55,7 @@
     </VRow>
 </template>
 <script lang="ts">
+import MasterData from "@/views/pages/master-data/masterData.vue";
 import axios from "axios";
 import Swal from 'sweetalert2';
 import { defineComponent, onMounted, reactive, ref } from "vue";
@@ -79,7 +63,7 @@ import { useRoute } from 'vue-router';
 import { Header, Item } from "vue3-easy-data-table";
 const router = useRoute()
 export default defineComponent({
-    components: {},
+    components: { MasterData },
 
 
     setup() {

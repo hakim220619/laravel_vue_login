@@ -1,10 +1,10 @@
 <script setup>
-import VueApexCharts from 'vue3-apexcharts'
+import { hexToRgb } from '@layouts/utils';
+import VueApexCharts from 'vue3-apexcharts';
 import {
   useDisplay,
   useTheme,
-} from 'vuetify'
-import { hexToRgb } from '@layouts/utils'
+} from 'vuetify';
 
 const vuetifyTheme = useTheme()
 const display = useDisplay()

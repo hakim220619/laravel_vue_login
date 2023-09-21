@@ -38,10 +38,18 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        DB::table('users')->insert([
-            'name' => $request->name,
+        DB::table('users')->insert(['full_name' => $request->full_name,
             'email' => $request->email,
-            'phone' => $request->phone,
+            'nisn' => $request->nisn,
+            'provinsi_id' => $request->phone,
+            'kabupaten_id' => $request->phone,
+            'kelas_id' => $request->kelas_id,
+            'jurusan_id' => $request->jurusan_id,
+            'date_ofbirth' => $request->date_ofbirth,
+            'address' => $request->address,
+            'status' => $request->status,
+            'image' => $request->image,
+            'role' => $request->role,
             'password' =>  Hash::make($request->password),
             'created_at' => now()
         ]);
@@ -56,20 +64,19 @@ class UsersController extends Controller
      */
     public function show($id)
     {
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id)
+    {
         $user = User::where('id', $id)->first();
         return response()->json([
             'success' => true,
             'message' => 'Data Users',
             'data' => $user,
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -90,6 +97,24 @@ class UsersController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Delete Data Users Berhasil',
+        ]);
+    }
+    function getClass()
+    {
+        $class = DB::table('class')->select('id', 'class_name')->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Users',
+            'data' => $class,
+        ]);
+    }
+    function getMajor()
+    {
+        $class = DB::table('major')->select('id', 'major_name')->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Users',
+            'data' => $class,
         ]);
     }
 }

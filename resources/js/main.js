@@ -16,13 +16,13 @@ import VueAxios from 'vue-axios'
 
 import store from "@/store"
 import MasterData from '@/views/pages/master-data/masterData.vue'
+// import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'es6-promise/auto'
 import 'sweetalert2/dist/sweetalert2.min.css'
 import VueSweetalert2 from 'vue-sweetalert2'
 import Vue3EasyDataTable from 'vue3-easy-data-table'
 import 'vue3-easy-data-table/dist/style.css'
 loadFonts()
-
 
 // Create vue app
 const app = createApp(App)
@@ -36,7 +36,8 @@ app.use(VueSweetalert2)
 app.use(router)
 app.use(store)
 app.use(MasterData)
-
+// app.use(BootstrapVue)
+// app.use(IconsPlugin)
 app.component('EasyDataTable', Vue3EasyDataTable);
 
 
