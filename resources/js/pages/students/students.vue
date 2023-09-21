@@ -96,7 +96,7 @@ export default defineComponent({
                 );
                 items.value = data;
 
-                // console.log(data);
+                console.log(data);
             }, 500);
         }
 

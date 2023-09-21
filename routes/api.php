@@ -32,8 +32,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/updateUsers', [UsersController::class, 'update'])->name('users.updateUsers');
 
     //students
-    Route::get('/students', [UsersController::class, 'index'])->name('students');
+    Route::get('/students', [StudentsController::class, 'index'])->name('students');
     //Auth
-    Route::post('/getUsers', [StudentsController::class, 'index'])->name('getUsers');
+    Route::post('/getUsers', [AuthController::class, 'getUsers'])->name('getUsers');
     Route::get('/logout', [AuthController::class, 'logout']);
 });
