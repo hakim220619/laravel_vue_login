@@ -6,7 +6,7 @@
             <VCol cols="12" md="12">
                 <VCard title="Add Users">
                     <VCardText>
-                            <VForm @submit.prevent="storeAddStudent()">
+                        <form @submit="formSubmit" enctype="multipart/form-data">
                             <VRow>
                                 <VCol cols="6">
                                     <VTextField v-model="formData.nisn" prepend-inner-icon="bx-user" label="Nisn"
@@ -31,8 +31,10 @@
                                         label="Address" placeholder="Jl *******" type="text" />
                                 </VCol>
                                 <VCol cols="6">
-                                    <VTextField v-model="formData.image" prepend-inner-icon="bx-location-plus" label="Image"
-                                        placeholder="Image" type="file" />
+                                    <VTextField v-on:change="onChange" prepend-inner-icon="bx-images" label="Image"
+                                        type="file" placeholder="johndoe@example.com" />
+
+
                                 </VCol>
                                 <VCol cols="6">
                                     <VTextField v-model="formData.date_ofbirth" prepend-inner-icon="bx-calendar"
@@ -70,7 +72,7 @@
                                     </VBtn>
                                 </VCol>
                             </VRow>
-                        </VForm>
+                        </form>
                     </VCardText>
                 </VCard>
             </VCol>
@@ -87,20 +89,11 @@ const router = useRouter();
 export default {
 
     data() {
-
         return {
-            formData: {
-                full_name: ref(''),
-                email: ref(''),
-                phone: ref(''),
-                class: ref(''),
-                password: ref(''),
-                checkbox: ref(false)
-            },
-
+            file: '',
+            formData: [],
             classData: [],
             majorData: [],
-
 
         }
     },
@@ -109,6 +102,9 @@ export default {
         this.$nextTick().then(this.getMajor);
     },
     methods: {
+        onChange(e) {
+            this.file = e.target.files[0];
+        },
         getClass() {
             //init formData
             let token = JSON.parse(localStorage.getItem('token'));
@@ -135,31 +131,22 @@ export default {
             }
             ).then((response) => this.majorData = response.data.data)
         },
-        storeAddStudent() {
-            //init formData
+
+        formSubmit(e) {
+            e.preventDefault();
             let token = JSON.parse(localStorage.getItem('token'));
-            // let formData = new FormData();
-            // console.log(formData);
-            var data = {
-                full_name: this.formData.full_name,
-                email: this.formData.email,
-                phone: this.formData.phone,
-                class: this.formData.class.id,
-                major: this.formData.major.id,
-                date_ofbirth: this.formData.date_ofbirth,
-                image: this.formData.image,
-                password: this.formData.password,
-            }
+            let data = new FormData();
+            data.append('nisn', this.formData.nisn);
+            data.append('full_name', this.formData.full_name);
+            data.append('email', this.formData.email);
+            data.append('phone', this.formData.phone);
+            data.append('address', this.formData.address);
+            data.append('date_ofbirth', this.formData.date_ofbirth);
+            data.append('class', this.formData.class.id);
+            data.append('major', this.formData.major.id);
+            data.append('password', this.formData.password);
+            data.append('file', this.file);
             console.log(data);
-            //assign state value to formData
-            // formData.append("name", name.value);
-            // formData.append("email", email.value);
-            // formData.append("phone", phone.value);
-            // formData.append("password", password.value);
-
-            //store data with API
-
-
             let timerInterval
             this.$swal.fire({
                 title: '',
@@ -169,15 +156,16 @@ export default {
                 didOpen: () => {
                     this.$swal.showLoading()
                     axios
-                        .post('http://localhost:8000/api/addUsers', data, {
+                        .post('http://localhost:8000/api/addStudents', data, {
                             headers: {
                                 Accept: "application/json",
+                                'Content-Type': 'multipart/form-data',
                                 Authorization: "Bearer " + token
                             }
                         }).then(response => (
                             // console.log(response.data.token),
 
-                            this.$router.push({ name: 'users' })
+                            this.$router.push({ name: 'students' })
                         ))
                         .catch(err => console.log(err))
                         .finally(() => {
@@ -209,6 +197,8 @@ export default {
                 }
             })
         }
-    }
+    },
+
+
 };
 </script>

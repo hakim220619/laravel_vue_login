@@ -33,6 +33,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     //students
     Route::get('/students', [StudentsController::class, 'index'])->name('students');
+    Route::post('/addStudents', [StudentsController::class, 'store'])->name('students.addStudents');
+    Route::get('/students/delete/{id}', [StudentsController::class, 'destroy'])->name('students.delete');
+    Route::get('/showStudents/{id}', [StudentsController::class, 'edit'])->name('students.showStudents');
+    Route::post('/UpdateStudents', [StudentsController::class, 'update'])->name('students.UpdateStudents');
     //Auth
     Route::post('/getUsers', [AuthController::class, 'getUsers'])->name('getUsers');
     Route::get('/logout', [AuthController::class, 'logout']);

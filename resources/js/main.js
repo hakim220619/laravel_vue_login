@@ -22,6 +22,7 @@ import 'sweetalert2/dist/sweetalert2.min.css'
 import VueSweetalert2 from 'vue-sweetalert2'
 import Vue3EasyDataTable from 'vue3-easy-data-table'
 import 'vue3-easy-data-table/dist/style.css'
+
 loadFonts()
 
 // Create vue app

@@ -10,15 +10,15 @@
             <!-- 👉 Horizontal Form -->
             <VCard title="">
                 <VCardText>
-                            <VBtn class="text-end" to="/addStudents">Add</VBtn>
+                    <VBtn class="text-end" to="/addStudents">Add</VBtn>
 
                 </VCardText>
 
                 <VCardText>
 
 
-                    <EasyDataTable show-index buttons-pagination v-model:items-selected="itemsSelected" :headers="headers"
-                        :rows-per-page="10" :items="items" :loading="loading" theme-color="#1d90ff" border-cell>
+                    <EasyDataTable show-index buttons-pagination :headers="headers" :rows-per-page="10" :items="items"
+                        :loading="loading" theme-color="#1d90ff" border-cell>
 
                         <!-- <img src="./images/delete.png" style="width: 60px; height: 100px" /> -->
                         <!-- <Loading></Loading> -->
@@ -36,6 +36,7 @@
                         <template #item-operation="item">
                             <div class="operation-wrapper">
                                 <!-- <img src="./images/delete.png" class="operation-icon" @click="getListings()" /> -->
+                                <font-awesome-icon icon="trash-can" />
                                 <img src="./images/delete.png" class="operation-icon" @click="deleteItem(item)" />
                                 <img src="./images/edit.png" class="operation-icon" @click="editItem(item)" />
                             </div>
@@ -70,10 +71,13 @@ export default defineComponent({
 
         const headers: Header[] = [
             { text: "Id", value: "id" },
-            { text: "Name", value: "name" },
+            { text: "Name", value: "full_name" },
             { text: "Phone", value: "phone" },
             { text: "Email", value: "email" },
-            { text: "Operation", value: "operation" },
+            { text: "Class", value: "class_name" },
+            { text: "Major", value: "major_name" },
+            { text: "Address", value: "address" },
+            { text: "Action", value: "operation" },
         ];
         const items = ref<Item[]>([]);
         const loading = ref(true);
@@ -122,7 +126,7 @@ export default defineComponent({
 
                         let token = JSON.parse(localStorage.getItem('token'));
                         const data = await axios.get(
-                            'http://127.0.0.1:8000/api/delete/' + val.id, {
+                            'http://127.0.0.1:8000/api/students/delete/' + val.id, {
                             headers: {
                                 Accept: "application/json",
                                 Authorization: "Bearer " + token
@@ -178,7 +182,7 @@ export default defineComponent({
     },
     methods: {
         editItem: function (val: Item) {
-            this.$router.push({ path: 'editUsers', query: { id: val.id } })
+            this.$router.push({ path: 'editStudents', query: { id: val.id } })
         }
 
     },

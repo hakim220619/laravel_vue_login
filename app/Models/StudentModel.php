@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class StudentModel extends Model
 {
@@ -26,6 +27,16 @@ class StudentModel extends Model
         'role',
         'created_at',
         'updated_at',
-        'password',
+
     ];
+    public static function getUsers()
+    {
+        $data = DB::select("select u.*, c.class_name, m.major_name from users u, class c, major m where u.class_id=c.id and u.major_id=m.id");
+        return $data;
+    }
+    public static function showUserById($id)
+    {
+        $data = DB::select("select u.*, c.class_name, m.major_name from users u, class c, major m where u.class_id=c.id and u.major_id=m.id and u.id = '$id'");
+        return $data[0];
+    }
 }

@@ -17,8 +17,8 @@
                 <VCardText>
 
 
-                    <EasyDataTable show-index buttons-pagination v-model:items-selected="itemsSelected" :headers="headers"
-                        :rows-per-page="10" :items="items" :loading="loading" theme-color="#1d90ff" border-cell>
+                    <EasyDataTable show-index buttons-pagination :headers="headers" :rows-per-page="10" :items="items"
+                        :loading="loading" theme-color="#1d90ff" border-cell>
 
                         <!-- <img src="./images/delete.png" style="width: 60px; height: 100px" /> -->
                         <!-- <Loading></Loading> -->
@@ -70,7 +70,7 @@ export default defineComponent({
 
         const headers: Header[] = [
             { text: "Id", value: "id" },
-            { text: "Name", value: "name" },
+            { text: "Name", value: "full_name" },
             { text: "Phone", value: "phone" },
             { text: "Email", value: "email" },
             { text: "Operation", value: "operation" },
