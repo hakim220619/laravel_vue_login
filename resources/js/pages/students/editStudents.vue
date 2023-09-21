@@ -89,7 +89,6 @@ const router = useRouter();
 
 
 export default {
-    props: ["id"],
 
     data() {
         return {
@@ -178,10 +177,10 @@ export default {
             }
             // data.append('class', this.classData.id);
 
-            data.append('status', this.status);
+            data.append('status', this.formData.status);
             data.append('password', this.password);
             data.append('file', this.file);
-            // console.log(this.formData);
+            // console.log(this.formData.status);
             let timerInterval
             this.$swal.fire({
                 title: '',

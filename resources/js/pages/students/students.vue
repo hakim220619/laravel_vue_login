@@ -77,6 +77,7 @@ export default defineComponent({
             { text: "Class", value: "class_name" },
             { text: "Major", value: "major_name" },
             { text: "Address", value: "address" },
+            { text: "Status", value: "status" },
             { text: "Action", value: "operation" },
         ];
         const items = ref<Item[]>([]);
@@ -101,7 +102,7 @@ export default defineComponent({
                 items.value = data;
 
                 console.log(data);
-            }, 500);
+            }, 0);
         }
 
         const isEditing = ref(false);
