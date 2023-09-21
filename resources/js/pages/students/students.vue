@@ -10,7 +10,7 @@
             <!-- 👉 Horizontal Form -->
             <VCard title="">
                 <VCardText>
-                    <VBtn class="text-end" to="/addUsers">Add</VBtn>
+                            <VBtn class="text-end" to="/addStudents">Add</VBtn>
 
                 </VCardText>
 
@@ -85,7 +85,7 @@ export default defineComponent({
                 loading.value = false;
                 let token = JSON.parse(localStorage.getItem('token'));
                 const data = await axios.get(
-                    'http://127.0.0.1:8000/api/users', {
+                    'http://127.0.0.1:8000/api/students', {
                     headers: {
                         Accept: "application/json",
                         Authorization: "Bearer " + token

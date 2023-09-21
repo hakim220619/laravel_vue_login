@@ -6,7 +6,7 @@
             <VCol cols="12" md="12">
                 <VCard title="Add Users">
                     <VCardText>
-                        <VForm @submit.prevent="storeUsers()">
+                            <VForm @submit.prevent="storeAddStudent()">
                             <VRow>
                                 <VCol cols="6">
                                     <VTextField v-model="formData.nisn" prepend-inner-icon="bx-user" label="Nisn"
@@ -135,7 +135,7 @@ export default {
             }
             ).then((response) => this.majorData = response.data.data)
         },
-        storeUsers() {
+        storeAddStudent() {
             //init formData
             let token = JSON.parse(localStorage.getItem('token'));
             // let formData = new FormData();

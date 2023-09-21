@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\StudentsController;
 use App\Http\Controllers\Api\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,7 +31,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/getMajor', [UsersController::class, 'getMajor'])->name('users.getMajor');
     Route::post('/updateUsers', [UsersController::class, 'update'])->name('users.updateUsers');
 
+    //students
+    Route::get('/students', [UsersController::class, 'index'])->name('students');
     //Auth
-    Route::post('/getUsers', [AuthController::class, 'getUsers'])->name('getUsers');
+    Route::post('/getUsers', [StudentsController::class, 'index'])->name('getUsers');
     Route::get('/logout', [AuthController::class, 'logout']);
 });
