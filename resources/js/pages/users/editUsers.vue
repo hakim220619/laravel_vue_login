@@ -75,7 +75,7 @@
                 </VCol>
                 <VCol cols="6">
                   <v-select
-                    v-model="formData.regency_name"
+                    v-model="regency"
                     :items="regencyData"
                     item-title="nama"
                     item-value="id"
@@ -101,7 +101,7 @@
                     v-model="formData.role_name"
                     :items="roleData"
                     item-title="name"
-                    item-value="value"
+                    item-value="id"
                     label="Role"
                     placeholder="Select Role"
                     prepend-inner-icon="bx-home"
@@ -146,11 +146,12 @@ export default {
       province: "",
       roleId: "",
       password: "",
+      regency: '',
       provinceData: [],
       regencyData: [],
       roleData: [
-        { name: "Admin", value: 1 },
-        { name: "Kepala Sekolah", value: 3 },
+        { name: "Admin", id: 1 },
+        { name: "Kepala Sekolah", id: 3 },
       ],
     };
   },
@@ -220,25 +221,71 @@ export default {
       dataEdit.append("date_ofbirth", this.formData.date_ofbirth);
       dataEdit.append("status", this.formData.status);
       dataEdit.append("password", this.password);
+      
       dataEdit.append("file", this.file);
       if (this.province.id) {
         dataEdit.append("province_id", this.province.id);
       } 
-      if (this.formData.regency_name.id) {
-        dataEdit.append("regency_id", this.formData.regency_name.id);
+      if (this.regency.id) {
+        dataEdit.append("regency_id", this.regency.id);
       } 
-      console.log(this.formData);
-      const data = axios
-        .post("http://127.0.0.1:8000/api/updateUsers/", dataEdit, {
-          headers: {
-            Accept: "application/json",
-            Authorization: "Bearer " + token,
-          },
-        })
-        .then((response) => response.data.data);
-      // items.value = data;
+      if (this.formData.role_name.id === undefined) {
+        dataEdit.append("role", this.formData.role);
+      } 
+      if (this.formData.role_name.id){
+        dataEdit.append("role", this.formData.role_name.id);
+      }
+      console.log(dataEdit);
+      
+        let timerInterval
+            this.$swal.fire({
+                title: '',
+                html: 'Loading...',
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: () => {
+                    this.$swal.showLoading()
+                    axios
+                    .post("http://127.0.0.1:8000/api/updateUsers/", dataEdit, {
+                            headers: {
+                                Accept: "application/json",
+                                'Content-Type': 'multipart/form-data',
+                                Authorization: "Bearer " + token
+                            }
+                        }).then(response => (
+                            // console.log(response.data.token),
 
-      // console.log(data);
+                            this.$router.push({ name: 'users' })
+                        ))
+                        .catch(err => console.log(err))
+                        .finally(() => {
+                            const Toast = this.$swal.mixin(
+                                {
+                                    toast: true,
+                                    position: 'top-end',
+                                    showConfirmButton: false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+
+                                })
+                            Toast.fire({
+                                icon: "success",
+                                title: "Insert Users Success..",
+                            });
+
+
+                        })
+                },
+                willClose: () => {
+
+                    clearInterval(timerInterval)
+                }
+            }).then((result) => {
+                /* Read more about handling dismissals below */
+                if (result.dismiss === Swal.DismissReason.timer) {
+
+                }
+            })
     },
   },
 };

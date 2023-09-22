@@ -1,8 +1,5 @@
-
-
 <template>
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
-
     <VCard class="auth-card pa-4 pt-7" max-width="448">
       <VCardItem class="justify-center">
         <template #prepend>
@@ -11,15 +8,11 @@
           </div>
         </template>
 
-        <VCardTitle class="text-2xl font-weight-bold">
-          sneat
-        </VCardTitle>
+        <VCardTitle class="text-2xl font-weight-bold"> sneat </VCardTitle>
       </VCardItem>
 
       <VCardText class="pt-2">
-        <h5 class="text-h5 mb-1">
-          Welcome to sneat! 👋🏻
-        </h5>
+        <h5 class="text-h5 mb-1">Welcome to sneat! 👋🏻</h5>
         <p class="mb-0">
           Please sign-in to your account and start the adventure
         </p>
@@ -30,38 +23,54 @@
           <VRow>
             <!-- email -->
             <VCol cols="12">
-              <VTextField v-model="form.email" autofocus placeholder="johndoe@email.com" label="Email" type="email"
-                id="email" />
+              <VTextField
+                v-model="form.email"
+                autofocus
+                placeholder="johndoe@email.com"
+                label="Email"
+                type="email"
+                id="email"
+              />
             </VCol>
 
             <!-- password -->
             <VCol cols="12">
-              <VTextField v-model="form.password" label="Password" placeholder="············"
+              <VTextField
+                v-model="form.password"
+                label="Password"
+                placeholder="············"
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="isPasswordVisible ? 'bx-hide' : 'bx-show'"
-                @click:append-inner="isPasswordVisible = !isPasswordVisible" id="password" />
+                @click:append-inner="isPasswordVisible = !isPasswordVisible"
+                id="password"
+              />
 
               <!-- remember me checkbox -->
-              <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
+              <div
+                class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4"
+              >
                 <VCheckbox v-model="form.remember" label="Remember me" />
 
-                <RouterLink class="text-primary ms-2 mb-1" to="javascript:void(0)">
+                <RouterLink
+                  class="text-primary ms-2 mb-1"
+                  to="javascript:void(0)"
+                >
                   Forgot Password?
                 </RouterLink>
               </div>
 
               <!-- login button -->
 
-
               <VBtn block type="submit">
-                <div v-if="loading" class="spinner-border spinner-border-sm" role="status">
-                  <span class="sr-only">
-                    Loading...
-                  </span>
+                <div
+                  v-if="loading"
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                >
+                  <span class="sr-only"> Loading... </span>
                 </div>
                 <span v-else>Sign In</span>
               </VBtn>
-
             </VCol>
 
             <!-- create account -->
@@ -90,74 +99,76 @@
   <Loading></Loading>
 </template>
 
-
 <script setup>
-import AuthProvider from '@/views/pages/authentication/AuthProvider.vue';
-import logo from '@images/logo.svg?raw';
-import axios from 'axios';
+import AuthProvider from "@/views/pages/authentication/AuthProvider.vue";
+import logo from "@images/logo.svg?raw";
+import axios from "axios";
 </script>
 <script>
 const loading = ref(false);
-const errorMessage = ref('');
-const isPasswordVisible = ref(false)
+const errorMessage = ref("");
+const isPasswordVisible = ref(false);
 export default {
   data() {
     return {
-      form: {}
-    }
+      form: {},
+    };
   },
   methods: {
-
     adddataLogin() {
-      let timerInterval
-      this.$swal.fire({
-        title: '',
-        html: 'Loading...',
-        timer: 3000,
-        timerProgressBar: true,
-        didOpen: () => {
-          this.$swal.showLoading()
-          loading.value = true;
-          errorMessage.value = '';
-          axios
-            .post('http://localhost:8000/api/login', this.form)
-            .then(response => (
-              // console.log(response.data.token),
-              axios.defaults.headers.common['Authorization'] = 'Bearer' + response.data.token,
-              localStorage.setItem('token', JSON.stringify(response.data.token)),
-              localStorage.setItem('email', JSON.stringify(this.form.email)),
-              this.$router.push({ name: 'dashboard' })
-            ))
-            .catch(err => console.log(err))
-            .finally(() => {
-              setInterval(() => {
+      let timerInterval;
+      this.$swal
+        .fire({
+          title: "",
+          html: "Loading...",
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            loading.value = true;
+            errorMessage.value = "";
+            axios
+              .post("http://localhost:8000/api/login", this.form)
+              .then(
+                (response) => (
+                  // console.log(response.data.token),
+                  (axios.defaults.headers.common["Authorization"] =
+                    "Bearer" + response.data.token),
+                  localStorage.setItem(
+                    "token",
+                    JSON.stringify(response.data.token)
+                  ),
+                  localStorage.setItem(
+                    "email",
+                    JSON.stringify(this.form.email)
+                  ),
+                  this.$router.push({ name: "dashboard" })
+                )
+              )
+              .catch((err) => console.log(err))
+              .finally(() => {
                 loading.value = false;
-              }, 2000).then(this.$swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Login successfully',
-                showConfirmButton: false,
-                timer: 1500
-              }));
-
-
-            })
-        },
-        willClose: () => {
-
-          clearInterval(timerInterval)
-        }
-      }).then((result) => {
-        /* Read more about handling dismissals below */
-        if (result.dismiss === Swal.DismissReason.timer) {
-
-        }
-      })
-
-    }
-  }
-}
-
+                this.$swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Login successfully",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+              });
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+        })
+        .then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+          }
+        });
+    },
+  },
+};
 </script>
 <style lang="scss">
 @use "@core-scss/template/pages/page-auth.scss";

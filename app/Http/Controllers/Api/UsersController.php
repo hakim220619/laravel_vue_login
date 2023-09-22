@@ -97,7 +97,7 @@ class UsersController extends Controller
      */
     public function update(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         if ($request->file('file') && $request->password != null) {
             $getImage = DB::table('users')->where('id', $request->id)->first();
             $file_path = public_path() . '/storage/images/users/' . $getImage->image;
@@ -107,13 +107,11 @@ class UsersController extends Controller
             $filename = $image->getClientOriginalName();
             $image->move(public_path('storage/images/users'), $filename);
             $data = [
-
                 'full_name' => $request->full_name,
                 'email' => $request->email,
                 'phone' => $request->phone,
                 'address' => $request->address,
                 'date_ofbirth' => $request->date_ofbirth,
-
                 'email_verified_at' => now(),
                 'password' => Hash::make($request->password),
                 'role' => $request->role,
@@ -188,7 +186,7 @@ class UsersController extends Controller
             ];
         }
 
-        // dd($data);
+        // dd($request->id);
         DB::table('users')->where('id', $request->id)->update($data);
         return response()->json([
             'success' => true,

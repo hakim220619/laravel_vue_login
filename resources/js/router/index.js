@@ -57,12 +57,13 @@ const router = createRouter({
           component: () => import('../pages/students/editStudents.vue'),
         },
         {
-          path: 'icons',
-          component: () => import('../pages/icons.vue'),
+          name: 'settingPayment',
+          path: 'settingPayment',
+          component: () => import('../pages/settingPayment.vue'),
         },
         {
-          path: 'cards',
-          component: () => import('../pages/cards.vue'),
+          path: 'masterData',
+          component: () => import('../pages/masterData.vue'),
         },
         {
           path: 'tables',

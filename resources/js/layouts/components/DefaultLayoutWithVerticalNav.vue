@@ -1,25 +1,25 @@
 <script setup>
-import upgradeBannerDark from '@images/pro/upgrade-banner-dark.png'
-import upgradeBannerLight from '@images/pro/upgrade-banner-light.png'
-import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
-import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
-import { useTheme } from 'vuetify'
+import upgradeBannerDark from "@images/pro/upgrade-banner-dark.png";
+import upgradeBannerLight from "@images/pro/upgrade-banner-light.png";
+import VerticalNavLayout from "@layouts/components/VerticalNavLayout.vue";
+import VerticalNavLink from "@layouts/components/VerticalNavLink.vue";
+import { useTheme } from "vuetify";
 // Components
-import Footer from '@/layouts/components/Footer.vue'
-import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
-import UserProfile from '@/layouts/components/UserProfile.vue'
+import Footer from "@/layouts/components/Footer.vue";
+import NavbarThemeSwitcher from "@/layouts/components/NavbarThemeSwitcher.vue";
+import UserProfile from "@/layouts/components/UserProfile.vue";
 
-const vuetifyTheme = useTheme()
+const vuetifyTheme = useTheme();
 
 const upgradeBanner = computed(() => {
-  return vuetifyTheme.global.name.value === 'light' ? upgradeBannerLight : upgradeBannerDark
-})
+  return vuetifyTheme.global.name.value === "light"
+    ? upgradeBannerLight
+    : upgradeBannerDark;
+});
 
 // const isOpenA = false,
 // isOpen = false,
-
 </script>
-
 
 <template>
   <VerticalNavLayout>
@@ -27,12 +27,18 @@ const upgradeBanner = computed(() => {
     <template #navbar="{ toggleVerticalOverlayNavActive }">
       <div class="d-flex h-100 align-center">
         <!-- 👉 Vertical nav toggle in overlay mode -->
-        <IconBtn class="ms-n3 d-lg-none" @click="toggleVerticalOverlayNavActive(true)">
+        <IconBtn
+          class="ms-n3 d-lg-none"
+          @click="toggleVerticalOverlayNavActive(true)"
+        >
           <VIcon icon="bx-menu" />
         </IconBtn>
 
         <!-- 👉 Search -->
-        <div class="d-flex align-center cursor-pointer" style="user-select: none;">
+        <div
+          class="d-flex align-center cursor-pointer"
+          style="user-select: none"
+        >
           <!-- 👉 Search Trigger button -->
           <IconBtn>
             <VIcon icon="bx-search" />
@@ -46,8 +52,12 @@ const upgradeBanner = computed(() => {
 
         <VSpacer />
 
-        <IconBtn class="me-2" href="https://github.com/themeselection/sneat-vuetify-vuejs-laravel-admin-template-free"
-          target="_blank" rel="noopener noreferrer">
+        <IconBtn
+          class="me-2"
+          href="https://github.com/themeselection/sneat-vuetify-vuejs-laravel-admin-template-free"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <VIcon icon="bxl-github" />
         </IconBtn>
 
@@ -62,13 +72,13 @@ const upgradeBanner = computed(() => {
     </template>
 
     <template #vertical-nav-content>
-      <VerticalNavLink :item="{
-        title: 'Dashboard',
-        icon: 'bx-home',
-        to: '/dashboard',
-      }" />
-
-
+      <VerticalNavLink
+        :item="{
+          title: 'Dashboard',
+          icon: 'bx-home',
+          to: '/dashboard',
+        }"
+      />
 
       <!-- 👉 Pages -->
       <!-- 👉 User Interface -->
@@ -80,29 +90,36 @@ const upgradeBanner = computed(() => {
         icon: 'mdi-alpha-t-box-outline',
         to: '/users',
       }" /> -->
-      <VerticalNavLink :item="{
-        title: 'Icons',
-        icon: 'bx-show',
-        to: '/icons',
-      }" />
-      <VerticalNavLink :item="{
-        title: 'Master Data',
-        icon: 'bx-credit-card',
-        to: '/cards',
-      }" />
-      <VerticalNavLink :item="{
-        title: 'Tables',
-        icon: 'bx-table',
-        to: '/tables',
-      }" />
-      <VerticalNavLink :item="{
-        title: 'Form Layouts',
-        icon: 'mdi-form-select',
-        to: '/form-layouts',
-      }" />
+
+      <VerticalNavLink
+        :item="{
+          title: 'Master Data',
+          icon: 'bx-credit-card',
+          to: '/masterData',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Setting Patment',
+          icon: 'bx-cog',
+          to: '/settingPayment',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Tables',
+          icon: 'bx-table',
+          to: '/tables',
+        }"
+      />
+      <VerticalNavLink
+        :item="{
+          title: 'Form Layouts',
+          icon: 'mdi-form-select',
+          to: '/form-layouts',
+        }"
+      />
     </template>
-
-
 
     <!-- 👉 Pages -->
     <slot />
@@ -125,34 +142,33 @@ const upgradeBanner = computed(() => {
 }
 
 .github-corner:hover .octo-arm {
-  animation: octocat-wave 560ms ease-in-out
+  animation: octocat-wave 560ms ease-in-out;
 }
 
 @keyframes octocat-wave {
-
   0%,
   100% {
-    transform: rotate(0)
+    transform: rotate(0);
   }
 
   20%,
   60% {
-    transform: rotate(-25deg)
+    transform: rotate(-25deg);
   }
 
   40%,
   80% {
-    transform: rotate(10deg)
+    transform: rotate(10deg);
   }
 }
 
-@media (max-width:500px) {
+@media (max-width: 500px) {
   .github-corner:hover .octo-arm {
-    animation: none
+    animation: none;
   }
 
   .github-corner .octo-arm {
-    animation: octocat-wave 560ms ease-in-out
+    animation: octocat-wave 560ms ease-in-out;
   }
 }
 </style>

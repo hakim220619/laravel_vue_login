@@ -1,9 +1,16 @@
 <script setup>
-import avatar1 from '@images/avatars/avatar-1.png';
+import avatar1 from "@images/avatars/avatar-1.png";
 </script>
 
 <template>
-  <VBadge dot location="bottom right" offset-x="3" offset-y="3" color="success" bordered>
+  <VBadge
+    dot
+    location="bottom right"
+    offset-x="3"
+    offset-y="3"
+    color="success"
+    bordered
+  >
     <VAvatar class="cursor-pointer" color="primary" variant="tonal">
       <VImg :src="avatar1" />
 
@@ -14,7 +21,13 @@ import avatar1 from '@images/avatars/avatar-1.png';
           <VListItem>
             <template #prepend>
               <VListItemAction start>
-                <VBadge dot location="bottom right" offset-x="3" offset-y="3" color="success">
+                <VBadge
+                  dot
+                  location="bottom right"
+                  offset-x="3"
+                  offset-y="3"
+                  color="success"
+                >
                   <VAvatar color="primary" variant="tonal">
                     <VImg :src="avatar1" />
                   </VAvatar>
@@ -23,7 +36,7 @@ import avatar1 from '@images/avatars/avatar-1.png';
             </template>
 
             <VListItemTitle class="font-weight-semibold">
-              {{ getUsers.name }}
+              {{ getUsers.full_name }}
             </VListItemTitle>
             <VListItemSubtitle>Admin</VListItemSubtitle>
           </VListItem>
@@ -82,16 +95,13 @@ import avatar1 from '@images/avatars/avatar-1.png';
     </VAvatar>
   </VBadge>
 </template>
+<script></script>
 <script>
-</script>
-<script>
-
-import axios from 'axios';
+import axios from "axios";
 import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 
 export default {
-
   data() {
     const store = useStore();
 
@@ -103,57 +113,53 @@ export default {
       store.dispatch("fetchUsers");
     });
     return {
-      getUsers
-      
-    }
+      getUsers,
+    };
   },
-  
+
   methods: {
     logout() {
-
-      let timerInterval
-      this.$swal.fire({
-        title: '',
-        html: 'Loading...',
-        timer: 1000,
-        timerProgressBar: true,
-        didOpen: () => {
-          this.$swal.showLoading()
-          let token = JSON.parse(localStorage.getItem('token'));
-      // console.log(token);
-      axios
-        .get('http://localhost:8000/api/logout', {
-        headers: {
-          Accept: "application/json",
-          Authorization: "Bearer " + token
-         
-        }
-      })
-        .then(response => (
-          this.$router.push({ name: 'login' })
-        ))
-        .catch(err => console.log(err))
-        .finally(() => { this.loading = false, 
-          this.$swal.fire({
-            icon: 'success',
-            title: 'Logout berhasil!!!',
-            showConfirmButton: true,
-            timer: 1500
-          }), localStorage.clear() })
-        },
-        willClose: () => {
-
-          clearInterval(timerInterval)
-        }
-      }).then((result) => {
-        /* Read more about handling dismissals below */
-        if (result.dismiss === Swal.DismissReason.timer) {
-
-        }
-      })
-      
-    }
-  }
-}
-
+      let timerInterval;
+      this.$swal
+        .fire({
+          title: "",
+          html: "Loading...",
+          timer: 1000,
+          timerProgressBar: true,
+          didOpen: () => {
+            this.$swal.showLoading();
+            let token = JSON.parse(localStorage.getItem("token"));
+            // console.log(token);
+            axios
+              .get("http://localhost:8000/api/logout", {
+                headers: {
+                  Accept: "application/json",
+                  Authorization: "Bearer " + token,
+                },
+              })
+              .then((response) => this.$router.push({ name: "login" }))
+              .catch((err) => console.log(err))
+              .finally(() => {
+                (this.loading = false),
+                  this.$swal.fire({
+                    icon: "success",
+                    title: "Logout berhasil!!!",
+                    showConfirmButton: true,
+                    timer: 1500,
+                  }),
+                  localStorage.clear();
+              });
+          },
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+        })
+        .then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+          }
+        });
+    },
+  },
+};
 </script>

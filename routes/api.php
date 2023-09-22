@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AplikasiController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\StudentsController;
 use App\Http\Controllers\Api\UsersController;
@@ -22,6 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::middleware(['auth:sanctum'])->group(function () {
+    //aplikasi
+    Route::get('/getAplikasi', [AplikasiController::class, 'index'])->name('getAplikasi');
     //Users
     Route::get('/users', [UsersController::class, 'index'])->name('users');
     Route::get('/getProvince', [UsersController::class, 'getProvince'])->name('getProvince');
