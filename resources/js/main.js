@@ -37,8 +37,6 @@ app.use(VueSweetalert2)
 app.use(router)
 app.use(store)
 app.use(MasterData)
-// app.use(BootstrapVue)
-// app.use(IconsPlugin)
 app.component('EasyDataTable', Vue3EasyDataTable);
 
 

@@ -101,8 +101,8 @@ export default defineComponent({
                 );
                 items.value = data;
 
-                console.log(data);
-            }, 0);
+                // console.log(data);
+            }, 500);
         }
 
         const isEditing = ref(false);

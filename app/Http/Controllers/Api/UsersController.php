@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
@@ -82,7 +83,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user = User::where('id', $id)->first();
+        $user = User::showUserById($id);
         return response()->json([
             'success' => true,
             'message' => 'Data Users',
@@ -103,8 +104,10 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        // dd($id);
-        DB::table('users')->where('id', $id)->delete();
+        $getImage = DB::table('users')->where('id', $id)->first();
+        $file_path = public_path() . '/storage/images/users/' . $getImage->image;
+        File::delete($file_path);
+        User::find($id)->delete();
         return response()->json([
             'success' => true,
             'message' => 'Delete Data Users Berhasil',

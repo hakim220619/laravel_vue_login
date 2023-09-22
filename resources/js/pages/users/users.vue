@@ -41,14 +41,6 @@
                             </div>
                         </template>
                     </EasyDataTable>
-
-                    <div class="edit-item" v-if="isEditing">
-                        height:<input type="text" v-model="editingItem.height" />
-                        <br />
-                        weight:<input type="text" v-model="editingItem.weight" />
-                        <br />
-                        <button @click="submitEdit">ok</button>
-                    </div>
                 </VCardText>
             </VCard>
         </VCol>
@@ -58,7 +50,7 @@
 import MasterData from "@/views/pages/master-data/masterData.vue";
 import axios from "axios";
 import Swal from 'sweetalert2';
-import { defineComponent, onMounted, reactive, ref } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import { useRoute } from 'vue-router';
 import { Header, Item } from "vue3-easy-data-table";
 const router = useRoute()
@@ -97,16 +89,12 @@ export default defineComponent({
                 );
                 items.value = data;
 
-                console.log(data);
+                // console.log(data);
             }, 500);
         }
 
         const isEditing = ref(false);
-        const editingItem = reactive({
-            height: "",
-            weight: "",
-            id: 0,
-        });
+       
         const deleteItem = (val: Item) => {
 
             Swal.fire({
@@ -123,7 +111,7 @@ export default defineComponent({
 
                         let token = JSON.parse(localStorage.getItem('token'));
                         const data = await axios.get(
-                            'http://127.0.0.1:8000/api/delete/' + val.id, {
+                            'http://127.0.0.1:8000/api/users/delete/' + val.id, {
                             headers: {
                                 Accept: "application/json",
                                 Authorization: "Bearer " + token
@@ -139,7 +127,7 @@ export default defineComponent({
                             toast: true,
                             position: 'top-end',
                             showConfirmButton: false,
-                            timer: 3000,
+                            timer: 2000,
                             timerProgressBar: true,
 
                         })
@@ -156,22 +144,16 @@ export default defineComponent({
 
 
 
-        const submitEdit = () => {
-            isEditing.value = false;
-            const item = items.value.find((item) => item.id === editingItem.id);
-            item.height = editingItem.height;
-            item.weight = editingItem.weight;
-        };
+       
 
         return {
             DataUsers: [],
+             getStatus: ['ON', 'OFF'],
             loading,
-            submitEdit,
             headers,
             items,
             deleteItem,
             ShowData,
-            editingItem,
             isEditing,
         };
     },

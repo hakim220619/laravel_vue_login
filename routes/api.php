@@ -27,8 +27,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/getProvince', [UsersController::class, 'getProvince'])->name('getProvince');
     Route::get('/getRegency/{id}', [UsersController::class, 'getRegency'])->name('getRegency');
     Route::post('/addUsers', [UsersController::class, 'store'])->name('users.addUsers');
-    Route::get('/delete/{id}', [UsersController::class, 'destroy'])->name('users.delete');
-    Route::get('/showUsers/{id}', [UsersController::class, 'show'])->name('users.showUsers');
+    Route::get('/users/delete/{id}', [UsersController::class, 'destroy'])->name('users.delete');
+    Route::get('/users/showUsers/{id}', [UsersController::class, 'edit'])->name('users.showUsers');
     Route::get('/getClass', [UsersController::class, 'getClass'])->name('users.getClass');
     Route::get('/getMajor', [UsersController::class, 'getMajor'])->name('users.getMajor');
     Route::post('/updateUsers', [UsersController::class, 'update'])->name('users.updateUsers');
