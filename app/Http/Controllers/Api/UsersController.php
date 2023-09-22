@@ -58,7 +58,7 @@ class UsersController extends Controller
             'date_ofbirth' => $request->date_ofbirth,
             'email_verified_at' => now(),
             'password' => Hash::make($request->password),
-            'role' => 1,
+            'role' => $request->role,
             'image' => $getFileImage,
             'status' => 'ON',
             'remember_token' => base64_encode($request->email),

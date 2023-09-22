@@ -85,7 +85,7 @@
                   ></v-select>
                 </VCol>
 
-                <VCol cols="12">
+                <VCol cols="6">
                   <VTextField
                     v-model="formData.address"
                     prepend-inner-icon="bx-location-plus"
@@ -93,6 +93,18 @@
                     placeholder="Jl *******"
                     type="text"
                   />
+                </VCol>
+                <VCol cols="6">
+                  <v-select
+                    v-model="roleId"
+                    :items="roleData"
+                    item-title="name"
+                    item-value="value"
+                    label="Role"
+                    placeholder="Select Role"
+                    prepend-inner-icon="bx-home"
+                    return-object
+                  ></v-select>
                 </VCol>
 
                 <VCol cols="12">
@@ -122,8 +134,13 @@ export default {
       file: "",
       formData: [],
       province: "",
+      roleId: "",
       provinceData: [],
       regencyData: [],
+      roleData: [
+        { name: "Admin", value: 1 },
+        { name: "Kepala Sekolah", value: 3 },
+      ],
     };
   },
   watch: {
@@ -176,8 +193,9 @@ export default {
       data.append("province_id", this.province.id);
       data.append("regency_id", this.formData.regency.id);
       data.append("password", this.formData.password);
+      data.append("role", this.roleId.value);
       data.append("file", this.file);
-      console.log(data);
+    //   console.log(this.roleId.value);
       let timerInterval;
       this.$swal
         .fire({

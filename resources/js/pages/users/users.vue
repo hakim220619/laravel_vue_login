@@ -68,12 +68,12 @@ export default defineComponent({
 
     setup() {
         const headers: Header[] = [
-            { text: "Id", value: "id" },
+            // { text: "Id", value: "id" },
             { text: "Name",sortable: true,  value: "full_name" },
-            { text: "Phone", value: "phone" },
-            { text: "Email", value: "email" },
-            { text: "Status", value: "status" },
-            { text: "Role", value: "role_name" },
+            { text: "Phone",sortable: true, value: "phone" },
+            { text: "Email",sortable: true, value: "email" },
+            { text: "Status",sortable: true, value: "status" },
+            { text: "Role", sortable: true,value: "role_name" },
             { text: "Action", value: "operation" },
         ];
         const items = ref<Item[]>([]);

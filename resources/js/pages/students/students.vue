@@ -70,7 +70,7 @@ export default defineComponent({
     setup() {
 
         const headers: Header[] = [
-            { text: "Id", value: "id" },
+            // { text: "Id", value: "id" },
             { text: "Name", value: "full_name" },
             { text: "Phone", value: "phone" },
             { text: "Email", value: "email" },
