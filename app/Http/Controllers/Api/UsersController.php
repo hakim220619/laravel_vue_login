@@ -48,7 +48,8 @@ class UsersController extends Controller
         } else {
             $getFileImage .= null;
         }
-        DB::table('users')->insert(['full_name' => $request->full_name,
+        DB::table('users')->insert([
+            'full_name' => $request->full_name,
 
             'full_name' => $request->full_name,
             'email' => $request->email,
@@ -97,6 +98,102 @@ class UsersController extends Controller
     public function update(Request $request)
     {
         dd($request->all());
+        if ($request->file('file') && $request->password != null) {
+            $getImage = DB::table('users')->where('id', $request->id)->first();
+            $file_path = public_path() . '/storage/images/users/' . $getImage->image;
+            File::delete($file_path);
+            $image = $request->file('image');
+            // dd($getImage->image);
+            $filename = $image->getClientOriginalName();
+            $image->move(public_path('storage/images/users'), $filename);
+            $data = [
+
+                'full_name' => $request->full_name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'date_ofbirth' => $request->date_ofbirth,
+
+                'email_verified_at' => now(),
+                'password' => Hash::make($request->password),
+                'role' => $request->role,
+                'status' => $request->status,
+                'image' => $request->file('file')->getClientOriginalName(),
+                'remember_token' => base64_encode($request->email),
+                'updated_at' => now()
+            ];
+        } elseif ($request->file('file') != null) {
+            $getImage = DB::table('users')->where('id', $request->id)->first();
+            $file_path = public_path() . '/storage/images/users/' . $getImage->image;
+            File::delete($file_path);
+            $image = $request->file('image');
+            // dd($getImage->image);
+            $filename = $image->getClientOriginalName();
+            $image->move(public_path('storage/images/users'), $filename);
+            $data = [
+
+                'full_name' => $request->full_name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'date_ofbirth' => $request->date_ofbirth,
+                'email_verified_at' => now(),
+                'role' => $request->role,
+                'image' => $request->file('file')->getClientOriginalName(),
+                'status' => $request->status,
+                'remember_token' => base64_encode($request->email),
+                'updated_at' => now()
+            ];
+        } elseif ($request->password != null) {
+            $data = [
+                'full_name' => $request->full_name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'date_ofbirth' => $request->date_ofbirth,
+                'email_verified_at' => now(),
+                'password' => Hash::make($request->password),
+                'role' => $request->role,
+                'status' => $request->status,
+                'remember_token' => base64_encode($request->email),
+                'updated_at' => now()
+            ];
+        } elseif ($request->province_id && $request->regency_id != null) {
+            $data = [
+                'full_name' => $request->full_name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'date_ofbirth' => $request->date_ofbirth,
+                'province_id' => $request->province_id,
+                'regency_id' => $request->regency_id,
+                'email_verified_at' => now(),
+                'role' => $request->role,
+                'status' => $request->status,
+                'remember_token' => base64_encode($request->email),
+                'updated_at' => now()
+            ];
+        } else {
+            $data = [
+                'full_name' => $request->full_name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'date_ofbirth' => $request->date_ofbirth,
+                'email_verified_at' => now(),
+                'role' => $request->role,
+                'status' => $request->status,
+                'remember_token' => base64_encode($request->email),
+                'updated_at' => now()
+            ];
+        }
+
+        // dd($data);
+        DB::table('users')->where('id', $request->id)->update($data);
+        return response()->json([
+            'success' => true,
+            'message' => 'Update Data Users Berhasil',
+        ]);
     }
 
     /**

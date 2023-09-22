@@ -54,7 +54,7 @@ class User extends Authenticatable
     }
     public static function showUserById($id)
     {
-        $query = DB::select("SELECT u.*, p.nama as province_name, r.nama as regency_name from users u, province p, regency r where u.province_id=p.id and u.regency_id=r.id and u.id = '$id'");
+        $query = DB::select("SELECT u.*, IF( role = 1 , 'Admin', IF(role = 3 , 'Kepala Sekolah', '') ) AS role_name, p.nama as province_name, r.nama as regency_name from users u, province p, regency r where u.province_id=p.id and u.regency_id=r.id and u.id = '$id'");
         return $query[0];
     }
     

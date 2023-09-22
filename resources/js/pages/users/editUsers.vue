@@ -2,9 +2,9 @@
   <div>
     <VRow>
       <VCol cols="12" md="12">
-        <VCard title="Add Users">
+        <VCard title="Update Users">
           <VCardText>
-            <VForm @submit.prevent="storeUsers()">
+            <VForm @submit.prevent="updateUsers()">
               <VRow>
                 <VCol cols="6">
                   <VTextField
@@ -53,7 +53,7 @@
                 </VCol>
                 <VCol cols="6">
                   <VTextField
-                    v-model="formData.password"
+                    v-model="password"
                     prepend-inner-icon="bx-lock"
                     label="Password"
                     type="password"
@@ -62,7 +62,8 @@
                 </VCol>
                 <VCol cols="6">
                   <v-select
-                    v-model="formData.provincy_name"
+                    v-model="province"
+                    v-on:change="province"
                     :items="provinceData"
                     item-title="nama"
                     item-value="id"
@@ -84,19 +85,20 @@
                     return-object
                   ></v-select>
                 </VCol>
-
-                <VCol cols="6">
-                  <VTextField
-                    v-model="formData.address"
-                    prepend-inner-icon="bx-location-plus"
-                    label="Address"
-                    placeholder="Jl *******"
-                    type="text"
-                  />
-                </VCol>
                 <VCol cols="6">
                   <v-select
-                    v-model="roleId"
+                    v-model="formData.status"
+                    :items="getStatus"
+                    label="Status"
+                    placeholder="Select Status"
+                    prepend-inner-icon="bx-home"
+                    return-object
+                  ></v-select>
+                </VCol>
+
+                <VCol cols="6">
+                  <v-select
+                    v-model="formData.role_name"
                     :items="roleData"
                     item-title="name"
                     item-value="value"
@@ -106,7 +108,15 @@
                     return-object
                   ></v-select>
                 </VCol>
-
+                <VCol cols="12">
+                  <VTextField
+                    v-model="formData.address"
+                    prepend-inner-icon="bx-location-plus"
+                    label="Address"
+                    placeholder="Jl *******"
+                    type="text"
+                  />
+                </VCol>
                 <VCol cols="12">
                   <VBtn type="submit" class="me-2"> Submit </VBtn>
 
@@ -128,14 +138,14 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 
 export default {
-
-
   data() {
     return {
       file: "",
       formData: [],
+      getStatus: ["ON", "OFF"],
       province: "",
       roleId: "",
+      password: "",
       provinceData: [],
       regencyData: [],
       roleData: [
@@ -193,22 +203,31 @@ export default {
             },
           }
         )
-        .then((response) => this.formData = response.data.data);
-    //   items.value = data;
+        .then((response) => (this.formData = response.data.data));
+      //   items.value = data;
 
-    //   console.log(this.formData);
+      //   console.log(this.formData);
     },
     updateUsers() {
       let token = JSON.parse(localStorage.getItem("token"));
-      var dataEdit = {
-        name: this.formData.name,
-        email: this.formData.email,
-        phone: this.formData.phone,
-        password: this.formData.password,
-      };
-      console.log(this.formData);
-      //init formData
 
+      let dataEdit = new FormData();
+      dataEdit.append("id", this.formData.id);
+      dataEdit.append("full_name", this.formData.full_name);
+      dataEdit.append("email", this.formData.email);
+      dataEdit.append("phone", this.formData.phone);
+      dataEdit.append("address", this.formData.address);
+      dataEdit.append("date_ofbirth", this.formData.date_ofbirth);
+      dataEdit.append("status", this.formData.status);
+      dataEdit.append("password", this.password);
+      dataEdit.append("file", this.file);
+      if (this.province.id) {
+        dataEdit.append("province_id", this.province.id);
+      } 
+      if (this.formData.regency_name.id) {
+        dataEdit.append("regency_id", this.formData.regency_name.id);
+      } 
+      console.log(this.formData);
       const data = axios
         .post("http://127.0.0.1:8000/api/updateUsers/", dataEdit, {
           headers: {
