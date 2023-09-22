@@ -16,7 +16,7 @@ class StudentsController extends Controller
      */
     public function index()
     {
-        $data = StudentModel::getUsers();
+        $data = StudentModel::getStudents();
         // dd($data);
         return response()->json([
             'success' => true,
@@ -39,11 +39,18 @@ class StudentsController extends Controller
     public function store(Request $request)
     {
 
-        // dd($request->all());
-        $image = $request->file('file');
-        // dd($getImage->image);
-        $filename = $image->getClientOriginalName();
-        $image->move(public_path('storage/images/users'), $filename);
+        // dd($request->file('file'));
+
+        $getFileImage = '';
+        if ($request->file('file') != null) {
+            $image = $request->file('file');
+            // dd($getImage->image);
+            $filename = $image->getClientOriginalName();
+            $image->move(public_path('storage/images/users'), $filename);
+            $getFileImage .= $request->file('file')->getClientOriginalName();
+        } else {
+            $getFileImage .= null;
+        }
         $data = [
             'nisn' => $request->nisn,
             'full_name' => $request->full_name,
@@ -58,7 +65,7 @@ class StudentsController extends Controller
             'email_verified_at' => now(),
             'password' => Hash::make($request->password),
             'role' => 2,
-            'image' => $request->file('file')->getClientOriginalName(),
+            'image' => $getFileImage,
             'status' => 'ON',
             'remember_token' => base64_encode($request->email),
             'created_at' => now(),

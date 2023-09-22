@@ -17,7 +17,7 @@
                 <VCardText>
 
 
-                    <EasyDataTable show-index buttons-pagination :headers="headers" :rows-per-page="10" :items="items"
+                   <EasyDataTable show-index buttons-pagination :headers="headers" :rows-per-page="10" :items="items"
                         :loading="loading" theme-color="#1d90ff" border-cell>
 
                         <!-- <img src="./images/delete.png" style="width: 60px; height: 100px" /> -->
@@ -67,13 +67,14 @@ export default defineComponent({
 
 
     setup() {
-
         const headers: Header[] = [
             { text: "Id", value: "id" },
-            { text: "Name", value: "full_name" },
+            { text: "Name",sortable: true,  value: "full_name" },
             { text: "Phone", value: "phone" },
             { text: "Email", value: "email" },
-            { text: "Operation", value: "operation" },
+            { text: "Status", value: "status" },
+            { text: "Role", value: "role_name" },
+            { text: "Action", value: "operation" },
         ];
         const items = ref<Item[]>([]);
         const loading = ref(true);
@@ -96,7 +97,7 @@ export default defineComponent({
                 );
                 items.value = data;
 
-                // console.log(data);
+                console.log(data);
             }, 500);
         }
 
@@ -130,8 +131,6 @@ export default defineComponent({
                             }
                         }
                         ).then((response) => response.data.data,
-
-
                         );
 
                     }, 500);

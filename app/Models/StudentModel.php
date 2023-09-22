@@ -29,7 +29,7 @@ class StudentModel extends Model
         'updated_at',
 
     ];
-    public static function getUsers()
+    public static function getStudents()
     {
         $data = DB::select("select u.*, c.class_name, m.major_name from users u, class c, major m where u.class_id=c.id and u.major_id=m.id");
         return $data;

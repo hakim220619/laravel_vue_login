@@ -13,14 +13,14 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
         // dd($request->all());
-        $user = User::all();
+        $data = User::getUsers();
         return response()->json([
             'success' => true,
             'message' => 'Data Users',
-            'data' => $user,
+            'data' => $data,
         ]);
     }
 
@@ -37,21 +37,32 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
+        $getFileImage = '';
+        if ($request->file('file') != null) {
+            $image = $request->file('file');
+            // dd($getImage->image);
+            $filename = $image->getClientOriginalName();
+            $image->move(public_path('storage/images/users'), $filename);
+            $getFileImage .= $request->file('file')->getClientOriginalName();
+        } else {
+            $getFileImage .= null;
+        }
         DB::table('users')->insert(['full_name' => $request->full_name,
+
+            'full_name' => $request->full_name,
             'email' => $request->email,
-            'nisn' => $request->nisn,
-            'provinsi_id' => $request->phone,
-            'kabupaten_id' => $request->phone,
-            'kelas_id' => $request->kelas_id,
-            'jurusan_id' => $request->jurusan_id,
-            'date_ofbirth' => $request->date_ofbirth,
+            'phone' => $request->phone,
             'address' => $request->address,
-            'status' => $request->status,
-            'image' => $request->image,
-            'role' => $request->role,
-            'password' =>  Hash::make($request->password),
-            'created_at' => now()
+            'province_id' => $request->province_id,
+            'regency_id' => $request->regency_id,
+            'date_ofbirth' => $request->date_ofbirth,
+            'email_verified_at' => now(),
+            'password' => Hash::make($request->password),
+            'role' => 1,
+            'image' => $getFileImage,
+            'status' => 'ON',
+            'remember_token' => base64_encode($request->email),
+            'created_at' => now(),
         ]);
         return response()->json([
             'success' => true,
@@ -115,6 +126,25 @@ class UsersController extends Controller
             'success' => true,
             'message' => 'Data Users',
             'data' => $class,
+        ]);
+    }
+    function getProvince()
+    {
+        $data = DB::table('province')->select('id', 'nama')->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Province',
+            'data' => $data,
+        ]);
+    }
+    function getRegency($id)
+    {
+        // dd($id);
+        $data = DB::table('regency')->select('id', 'nama')->where('province_id', $id)->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Regency',
+            'data' => $data,
         ]);
     }
 }

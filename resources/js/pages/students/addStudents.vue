@@ -32,7 +32,7 @@
                                 </VCol>
                                 <VCol cols="6">
                                     <VTextField v-on:change="onChange" prepend-inner-icon="bx-images" label="Image"
-                                        type="file" placeholder="johndoe@example.com" />
+                                        type="file" />
 
 
                                 </VCol>
