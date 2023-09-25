@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Api\AplikasiController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BilPaymentController;
+use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\StudentsController;
 use App\Http\Controllers\Api\UsersController;
 use Illuminate\Http\Request;
@@ -42,6 +44,22 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/students/delete/{id}', [StudentsController::class, 'destroy'])->name('students.delete');
     Route::get('/showStudents/{id}', [StudentsController::class, 'edit'])->name('students.showStudents');
     Route::post('/UpdateStudents', [StudentsController::class, 'update'])->name('students.UpdateStudents');
+
+
+    //settingPayment
+    // Route::get('/settingPayment', [SettingController::class, 'index'])->name('settingPayment');
+    // Route::get('/getYears', [SettingController::class, 'getYears'])->name('settingPayment.getYears');
+    // Route::post('/addBillPayment', [SettingController::class, 'store'])->name('settingPayment.addBillPayment');
+    // Route::get('/settingPayment/delete/{id}', [SettingController::class, 'destroy'])->name('settingPayment.delete');
+    // Route::get('/showBillPayment/{id}', [SettingController::class, 'edit'])->name('settingPayment.showBillPayment');
+    // Route::post('/UpdateBillPayment', [SettingController::class, 'update'])->name('students.UpdateBillPayment');
+    //Bill Payment
+    Route::get('/billPayment', [BilPaymentController::class, 'index'])->name('billPayment');
+    Route::get('/getYears', [BilPaymentController::class, 'getYears'])->name('billPayment.getYears');
+    Route::post('/addBillPayment', [BilPaymentController::class, 'store'])->name('billPayment.addBillPayment');
+    Route::get('/billPayment/delete/{id}', [BilPaymentController::class, 'destroy'])->name('billPayment.delete');
+    Route::get('/showBillPayment/{id}', [BilPaymentController::class, 'edit'])->name('billPayment.showBillPayment');
+    Route::post('/UpdateBillPayment', [BilPaymentController::class, 'update'])->name('students.UpdateBillPayment');
     //Auth
     Route::post('/getUsers', [AuthController::class, 'getUsers'])->name('getUsers');
     Route::get('/logout', [AuthController::class, 'logout']);

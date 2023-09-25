@@ -59,7 +59,7 @@
                                         type="password" placeholder="············" />
                                 </VCol>
                                 <VCol cols="12">
-                                    <VTextField v-model="formData.address" prepend-inner-icon="bx-location-plus"
+                                    <VTextField v-model="formData.address" prepend-inner-icon="bx-map"
                                         label="Address" placeholder="Jl *******" type="text" />
                                 </VCol>
 

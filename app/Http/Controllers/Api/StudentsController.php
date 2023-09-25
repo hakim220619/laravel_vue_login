@@ -39,7 +39,7 @@ class StudentsController extends Controller
     public function store(Request $request)
     {
 
-        // dd($request->file('file'));
+        // dd($request->all());
 
         $getFileImage = '';
         if ($request->file('file') != null) {

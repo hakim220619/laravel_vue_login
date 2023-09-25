@@ -25,7 +25,9 @@ const props = defineProps({
       <span class="nav-item-title">
         {{ item.title }}
       </span>
+      
     </Component>
+    
   </li>
 </template>
 
@@ -37,4 +39,5 @@ const props = defineProps({
     cursor: pointer;
   }
 }
+
 </style>

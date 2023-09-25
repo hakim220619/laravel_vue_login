@@ -49,7 +49,7 @@ class User extends Authenticatable
 
     public static function getUsers()
     {
-        $query = DB::select("select u.*, IF( role = 1 , 'Admin', IF(role = 3 , 'Kepala Sekolah', '') ) AS role_name from users u where u.role != 2");
+        $query = DB::select("select ROW_NUMBER() OVER(ORDER BY id) as no, u.*, IF( role = 1 , 'Admin', IF(role = 3 , 'Kepala Sekolah', '') ) AS role_name from users u where u.role != 2");
         return $query;
     }
     public static function showUserById($id)
@@ -57,5 +57,4 @@ class User extends Authenticatable
         $query = DB::select("SELECT u.*, IF( role = 1 , 'Admin', IF(role = 3 , 'Kepala Sekolah', '') ) AS role_name, p.nama as province_name, r.nama as regency_name from users u, province p, regency r where u.province_id=p.id and u.regency_id=r.id and u.id = '$id'");
         return $query[0];
     }
-    
 }

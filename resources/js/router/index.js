@@ -14,64 +14,74 @@ const router = createRouter({
     { path: '/', redirect: '/login' },
     {
       path: '/',
-      component: () => import('../layouts/default.vue'),
+      // component: () => import('@/layouts/default.vue'),
       beforeEnter: requireLogin,
       children: [
         {
           name: 'dashboard',
           path: 'dashboard',
-          component: () => import('../pages/dashboard.vue'),
+          component: () => import('@/pages/dashboard.vue'),
         },
         {
           path: 'account-settings',
-          component: () => import('../pages/account-settings.vue'),
+          component: () => import('@/pages/account-settings.vue'),
         },
         {
           name: 'users',
           path: 'users',
-          component: () => import('../pages/users/users.vue'),
+          component: () => import('@/pages/users/users.vue'),
         },
         {
           name: 'addUsers',
           path: 'addUsers',
-          component: () => import('../pages/users/addUsers.vue'),
+          component: () => import('@/pages/users/addUsers.vue'),
         },
         {
           name: 'editUsers',
           path: 'editUsers',
-          component: () => import('../pages/users/editUsers.vue'),
+          component: () => import('@/pages/users/editUsers.vue'),
         },
         {
           name: 'students',
           path: 'students',
-          component: () => import('../pages/students/students.vue'),
+          component: () => import('@/pages/students/students.vue'),
         },
         {
           name: 'addStudents',
           path: 'addStudents',
-          component: () => import('../pages/students/addStudents.vue'),
+          component: () => import('@/pages/students/addStudents.vue'),
         },
         {
           name: 'editStudents',
           path: 'editStudents',
-          component: () => import('../pages/students/editStudents.vue'),
+          component: () => import('@/pages/students/editStudents.vue'),
         },
         {
           name: 'settingPayment',
           path: 'settingPayment',
-          component: () => import('../pages/settingPayment.vue'),
+          component: () => import('@/pages/settingPayment/billPayment.vue'),
+        },
+        {
+          name: 'addPayment',
+          path: 'addPayment',
+          component: () => import('@/pages/settingPayment/addPayment.vue'),
+        },
+        {
+          name: 'editPayment',
+          path: 'editPayment',
+          component: () => import('@/pages/settingPayment/editPayment.vue'),
         },
         {
           path: 'masterData',
-          component: () => import('../pages/masterData.vue'),
+          component: () => import('@/pages/masterData.vue'),
         },
         {
           path: 'tables',
-          component: () => import('../pages/tables.vue'),
+          component: () => import('@/pages/tables.vue'),
         },
         {
           path: 'form-layouts',
-          component: () => import('../pages/form-layouts.vue'),
+          component: () => import('@/pages/form-layouts.vue'),
         },
         {
           path: '/logout',
@@ -85,21 +95,21 @@ const router = createRouter({
     },
     {
       path: '/',
-      component: () => import('../layouts/blank.vue'),
+      component: () => import('@/layouts/blank.vue'),
 
       children: [
         {
           name: "login",
           path: 'login',
-          component: () => import('../pages/login.vue'),
+          component: () => import('@/pages/login.vue'),
         },
         {
           path: 'register',
-          component: () => import('../pages/register.vue'),
+          component: () => import('@/pages/register.vue'),
         },
         {
           path: '/:pathMatch(.*)*',
-          component: () => import('../pages/[...all].vue'),
+          component: () => import('@/pages/[...all].vue'),
         },
       ],
     },

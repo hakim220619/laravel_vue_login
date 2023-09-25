@@ -27,7 +27,7 @@
                                         placeholder="+1 123 456 7890" type="number" />
                                 </VCol>
                                 <VCol cols="6">
-                                    <VTextField v-model="formData.address" prepend-inner-icon="bx-location-plus"
+                                    <VTextField v-model="formData.address" prepend-inner-icon="bx-map"
                                         label="Address" placeholder="Jl *******" type="text" />
                                 </VCol>
                                 <VCol cols="6">
