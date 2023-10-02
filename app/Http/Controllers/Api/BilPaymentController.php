@@ -99,4 +99,22 @@ class BilPaymentController extends Controller
             'data' => $data,
         ]);
     }
+    public function billPaymentById($id)
+    {
+        $data = BilPaymentModel::billPaymentById($id);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data getNamePayment',
+            'data' => $data,
+        ]);
+    }
+    public function createPaymentByClass(Request $request)
+    {
+        dd($request->all());
+        return response()->json([
+            'success' => true,
+            'message' => 'Data getNamePayment',
+            // 'data' => $data,
+        ]);
+    }
 }

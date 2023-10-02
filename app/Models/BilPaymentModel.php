@@ -21,7 +21,13 @@ class BilPaymentModel extends Model
     }
     public static function getMonths()
     {
-        $query = DB::table('months')->get();
+        $query = DB::select("select * from months order by number asc");
+        return $query;
+    }
+    public static function billPaymentById($params)
+    {
+        // dd($params);
+        $query = DB::table('bill_payment')->where('id', $params)->first();
         return $query;
     }
 }
