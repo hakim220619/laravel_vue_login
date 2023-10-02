@@ -90,4 +90,13 @@ class BilPaymentController extends Controller
             'data' => $data,
         ]);
     }
+    public function getMonths()
+    {
+        $data = BilPaymentModel::getMonths();
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Months',
+            'data' => $data,
+        ]);
+    }
 }

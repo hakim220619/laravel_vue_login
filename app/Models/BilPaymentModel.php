@@ -19,4 +19,9 @@ class BilPaymentModel extends Model
         $query = DB::table('years')->get();
         return $query;
     }
+    public static function getMonths()
+    {
+        $query = DB::table('months')->get();
+        return $query;
+    }
 }

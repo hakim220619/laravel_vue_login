@@ -60,6 +60,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/billPayment/delete/{id}', [BilPaymentController::class, 'destroy'])->name('billPayment.delete');
     Route::get('/showBillPayment/{id}', [BilPaymentController::class, 'edit'])->name('billPayment.showBillPayment');
     Route::post('/UpdateBillPayment', [BilPaymentController::class, 'update'])->name('students.UpdateBillPayment');
+    Route::get('/getMonths', [BilPaymentController::class, 'getMonths'])->name('students.getMonths');
     //Auth
     Route::post('/getUsers', [AuthController::class, 'getUsers'])->name('getUsers');
     Route::get('/logout', [AuthController::class, 'logout']);
