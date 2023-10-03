@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\StudentModel;
 use Illuminate\Http\Request;
+use App\Imports\StudentImport;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudentsController extends Controller
 {
@@ -218,5 +220,10 @@ class StudentsController extends Controller
             'success' => true,
             'message' => 'Delete Data Users Berhasil',
         ]);
+    }
+    function uploadStudent(Request $request)
+    {
+        // dd($request->all());
+        Excel::import(new StudentImport, $request->file('file'));
     }
 }

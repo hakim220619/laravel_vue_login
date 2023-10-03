@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AplikasiController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BilPaymentController;
+use App\Http\Controllers\Api\GeneralController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\StudentsController;
 use App\Http\Controllers\Api\UsersController;
@@ -31,6 +32,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/users', [UsersController::class, 'index'])->name('users');
     Route::get('/getProvince', [UsersController::class, 'getProvince'])->name('getProvince');
     Route::get('/getRegency/{id}', [UsersController::class, 'getRegency'])->name('getRegency');
+    Route::get('/getSchool/{id}', [UsersController::class, 'getSchool'])->name('getSchool');
     Route::post('/addUsers', [UsersController::class, 'store'])->name('users.addUsers');
     Route::get('/users/delete/{id}', [UsersController::class, 'destroy'])->name('users.delete');
     Route::get('/users/showUsers/{id}', [UsersController::class, 'edit'])->name('users.showUsers');
@@ -44,6 +46,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/students/delete/{id}', [StudentsController::class, 'destroy'])->name('students.delete');
     Route::get('/showStudents/{id}', [StudentsController::class, 'edit'])->name('students.showStudents');
     Route::post('/UpdateStudents', [StudentsController::class, 'update'])->name('students.UpdateStudents');
+    Route::post('/uploadStudent', [StudentsController::class, 'uploadStudent'])->name('students.uploadStudent');
 
 
     //settingPayment
@@ -66,4 +69,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //Auth
     Route::post('/getUsers', [AuthController::class, 'getUsers'])->name('getUsers');
     Route::get('/logout', [AuthController::class, 'logout']);
+
+    //General
+    Route::get('/GetRole', [GeneralController::class, 'GetRole'])->name('general.GetRole');
 });

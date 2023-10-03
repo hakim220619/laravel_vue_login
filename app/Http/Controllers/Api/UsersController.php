@@ -38,6 +38,7 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $getFileImage = '';
         if ($request->file('file') != null) {
             $image = $request->file('file');
@@ -50,13 +51,13 @@ class UsersController extends Controller
         }
         DB::table('users')->insert([
             'full_name' => $request->full_name,
-
             'full_name' => $request->full_name,
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
             'province_id' => $request->province_id,
             'regency_id' => $request->regency_id,
+            'school_id' => $request->school_id,
             'date_ofbirth' => $request->date_ofbirth,
             'email_verified_at' => now(),
             'password' => Hash::make($request->password),
@@ -138,7 +139,7 @@ class UsersController extends Controller
                 'email_verified_at' => now(),
                 'role' => $request->role,
                 'image' => $request->file('file')->getClientOriginalName(),
-                'status' => $request->status,
+                'state' => $request->status,
                 'remember_token' => base64_encode($request->email),
                 'updated_at' => now()
             ];
@@ -152,7 +153,7 @@ class UsersController extends Controller
                 'email_verified_at' => now(),
                 'password' => Hash::make($request->password),
                 'role' => $request->role,
-                'status' => $request->status,
+                'state' => $request->status,
                 'remember_token' => base64_encode($request->email),
                 'updated_at' => now()
             ];
@@ -167,7 +168,7 @@ class UsersController extends Controller
                 'regency_id' => $request->regency_id,
                 'email_verified_at' => now(),
                 'role' => $request->role,
-                'status' => $request->status,
+                'state' => $request->status,
                 'remember_token' => base64_encode($request->email),
                 'updated_at' => now()
             ];
@@ -180,7 +181,7 @@ class UsersController extends Controller
                 'date_ofbirth' => $request->date_ofbirth,
                 'email_verified_at' => now(),
                 'role' => $request->role,
-                'status' => $request->status,
+                'state' => $request->status,
                 'remember_token' => base64_encode($request->email),
                 'updated_at' => now()
             ];
@@ -242,6 +243,16 @@ class UsersController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Data Regency',
+            'data' => $data,
+        ]);
+    }
+    function getSchool($id)
+    {
+        // dd($id);
+        $data = DB::table('school')->select('id', 'name')->where('regency_id', $id)->get();
+        return response()->json([
+            'success' => true,
+            'message' => 'Data School',
             'data' => $data,
         ]);
     }

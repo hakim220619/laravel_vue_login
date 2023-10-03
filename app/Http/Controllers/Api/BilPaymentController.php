@@ -110,10 +110,28 @@ class BilPaymentController extends Controller
     }
     public function createPaymentByClass(Request $request)
     {
-        dd($request->all());
+
+        $getUsers = DB::table('users')->where('school_id', request()->user()->school_id)->where('class_id', $request->class)->where('major_id', $request->major)->get();
+        dd($request->class);
+        for ($i = 0; $i < count($request->dataId); $i++) {
+            DB::table('payment')->insert([
+                'uid' => 'TRX' . rand(000, 999) . date('Hms'),
+                'school_id' => request()->user()->school_id,
+                'user_id' => $request->billPayment_id,
+                'bilPayment_id' => $request->billPayment_id,
+                'class_id' => $request->class,
+                'major_id' => $request->major,
+                'month_id' => $request->dataId[$i],
+                'years' => $request->years,
+                'type' => $request->type,
+                'amount' => $request->data[$i],
+                'state' => "PENDING",
+                'created_at' => now()
+            ]);
+        }
         return response()->json([
             'success' => true,
-            'message' => 'Data getNamePayment',
+            'message' => 'Tagihan Berhasil Ditambah',
             // 'data' => $data,
         ]);
     }
