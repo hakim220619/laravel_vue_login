@@ -140,4 +140,33 @@ class BilPaymentController extends Controller
             // 'data' => $data,
         ]);
     }
+    public function createPaymentByClassFree(Request $request)
+    {
+
+        $getUsers = DB::table('users')->where('school_id', request()->user()->school_id)->where('class_id', $request->class)->where('major_id', $request->major)->get();
+        // dd($getUsers);
+        for ($gu = 0; $gu < count($getUsers); $gu++) {
+            // dd($getUsers[$gu]->id);
+
+            DB::table('payment')->insert([
+                'uid' => 'TRX' . rand(000, 999) . date('Hms'),
+                'school_id' => request()->user()->school_id,
+                'user_id' => $getUsers[$gu]->id,
+                'bilPayment_id' => $request->billPayment_id,
+                'class_id' => $request->class,
+                'major_id' => $request->major,
+                'years' => $request->years,
+                'type' => $request->type,
+                'amount' => $request->amount,
+                'state' => "PENDING",
+                'created_at' => now()
+            ]);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Tagihan Berhasil Ditambah',
+            // 'data' => $data,
+        ]);
+    }
 }

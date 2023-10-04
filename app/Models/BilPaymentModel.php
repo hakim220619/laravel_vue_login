@@ -11,7 +11,7 @@ class BilPaymentModel extends Model
     use HasFactory;
     public static function getBilPayment()
     {
-        $query = DB::select("select bp.* from bill_payment bp, school s where bp.school_id=s.id and bp.school_id = '" . request()->user()->school_id . "' ");
+        $query = DB::select("select bp.* from bill_payment bp, school s where bp.school_id=s.id and bp.school_id = '" . request()->user()->school_id . "' order by bp.type desc");
         return $query;
     }
     public static function getYears()

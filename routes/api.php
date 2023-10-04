@@ -58,6 +58,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Route::get('/settingPayment/delete/{id}', [SettingController::class, 'destroy'])->name('settingPayment.delete');
     // Route::get('/showBillPayment/{id}', [SettingController::class, 'edit'])->name('settingPayment.showBillPayment');
     // Route::post('/UpdateBillPayment', [SettingController::class, 'update'])->name('students.UpdateBillPayment');
+
     //Bill Payment
     Route::get('/billPayment', [BilPaymentController::class, 'index'])->name('billPayment');
     Route::get('/getYears', [BilPaymentController::class, 'getYears'])->name('billPayment.getYears');
@@ -67,6 +68,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/UpdateBillPayment', [BilPaymentController::class, 'update'])->name('billPayment.UpdateBillPayment');
     Route::get('/getMonths', [BilPaymentController::class, 'getMonths'])->name('billPayment.getMonths');
     Route::post('/createPaymentByClass', [BilPaymentController::class, 'createPaymentByClass'])->name('billPayment.createPaymentByClass');
+    Route::post('/createPaymentByClassFree', [BilPaymentController::class, 'createPaymentByClassFree'])->name('billPayment.createPaymentByClassFree');
     Route::get('/billPaymentById/{id}', [BilPaymentController::class, 'billPaymentById'])->name('billPayment.billPaymentById');
     //Auth
     Route::post('/getUsers', [AuthController::class, 'getUsers'])->name('getUsers');
