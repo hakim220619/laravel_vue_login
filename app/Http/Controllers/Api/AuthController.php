@@ -29,7 +29,7 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'Login berhasil',
             'token' => $token,
-            'user' => $user,
+            'data' => $user,
         ]);
     }
     function getUsers(Request $request)

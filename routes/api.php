@@ -3,7 +3,9 @@
 use App\Http\Controllers\Api\AplikasiController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BilPaymentController;
+use App\Http\Controllers\Api\ClassController;
 use App\Http\Controllers\Api\GeneralController;
+use App\Http\Controllers\Api\MajorController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\StudentsController;
 use App\Http\Controllers\Api\UsersController;
@@ -70,6 +72,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/getUsers', [AuthController::class, 'getUsers'])->name('getUsers');
     Route::get('/logout', [AuthController::class, 'logout']);
 
+    //Class
+    Route::get('/getClassBySchool', [ClassController::class, 'index'])->name('class.getClassBySchool');
+    Route::post('/createClass', [ClassController::class, 'store'])->name('class.createClass');
+    Route::get('/class/delete/{id}', [ClassController::class, 'destroy'])->name('class.delete');
+
+    //Major
+    Route::get('/getMajorBySchool', [MajorController::class, 'index'])->name('major.getMajorBySchool');
+    Route::post('/createMajor', [MajorController::class, 'store'])->name('major.createMajor');
+    Route::get('/major/delete/{id}', [MajorController::class, 'destroy'])->name('major.delete');
     //General
     Route::get('/GetRole', [GeneralController::class, 'GetRole'])->name('general.GetRole');
+    Route::get('/getSchoolById/{id}', [GeneralController::class, 'getSchoolById'])->name('general.getSchoolById');
 });

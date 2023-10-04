@@ -14,4 +14,9 @@ class GeneralModel extends Model
         $query = DB::select("select * from role where state = 'ON' and id != 160");
         return $query;
     }
+    public static function GetSchoolById($id)
+    {
+        $query = DB::table('school')->where('state', 'ON')->where('id', $id)->first();
+        return $query;
+    }
 }

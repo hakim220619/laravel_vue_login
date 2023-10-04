@@ -54,6 +54,7 @@ class StudentsController extends Controller
             $getFileImage .= null;
         }
         $data = [
+            'uid' => 'STD' . rand(00000, 99999) . date('Hms'),
             'nisn' => $request->nisn,
             'full_name' => $request->full_name,
             'email' => $request->email,
@@ -66,9 +67,10 @@ class StudentsController extends Controller
             'regency_id' => request()->user()->regency_id,
             'email_verified_at' => now(),
             'password' => Hash::make($request->password),
-            'role' => 2,
+            'school_id' => request()->user()->school_id,
+            'role' => 160,
             'image' => $getFileImage,
-            'status' => 'ON',
+            'state' => 'ON',
             'remember_token' => base64_encode($request->email),
             'created_at' => now(),
         ];
@@ -128,7 +130,7 @@ class StudentsController extends Controller
                 'email_verified_at' => now(),
                 'password' => Hash::make($request->password),
                 'role' => 2,
-                'status' => $request->status,
+                'state' => $request->status,
                 'image' => $request->file('file')->getClientOriginalName(),
                 'remember_token' => base64_encode($request->email),
                 'updated_at' => now()
@@ -155,7 +157,7 @@ class StudentsController extends Controller
                 'email_verified_at' => now(),
                 'role' => 2,
                 'image' => $request->file('file')->getClientOriginalName(),
-                'status' => $request->status,
+                'state' => $request->status,
                 'remember_token' => base64_encode($request->email),
                 'updated_at' => now()
             ];
@@ -174,7 +176,7 @@ class StudentsController extends Controller
                 'email_verified_at' => now(),
                 'password' => Hash::make($request->password),
                 'role' => 2,
-                'status' => $request->status,
+                'state' => $request->status,
                 'remember_token' => base64_encode($request->email),
                 'updated_at' => now()
             ];
@@ -192,7 +194,7 @@ class StudentsController extends Controller
                 'regency_id' => request()->user()->regency_id,
                 'email_verified_at' => now(),
                 'role' => 2,
-                'status' => $request->status,
+                'state' => $request->status,
                 'remember_token' => base64_encode($request->email),
                 'updated_at' => now()
             ];

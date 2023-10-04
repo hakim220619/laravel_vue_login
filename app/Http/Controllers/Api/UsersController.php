@@ -50,7 +50,7 @@ class UsersController extends Controller
             $getFileImage .= null;
         }
         DB::table('users')->insert([
-            'full_name' => $request->full_name,
+            'uid' => 'ADS' . rand(00000, 99999) . date('Hms'),
             'full_name' => $request->full_name,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -63,7 +63,7 @@ class UsersController extends Controller
             'password' => Hash::make($request->password),
             'role' => $request->role,
             'image' => $getFileImage,
-            'status' => 'ON',
+            'state' => 'ON',
             'remember_token' => base64_encode($request->email),
             'created_at' => now(),
         ]);
@@ -116,7 +116,7 @@ class UsersController extends Controller
                 'email_verified_at' => now(),
                 'password' => Hash::make($request->password),
                 'role' => $request->role,
-                'status' => $request->status,
+                'state' => $request->status,
                 'image' => $request->file('file')->getClientOriginalName(),
                 'remember_token' => base64_encode($request->email),
                 'updated_at' => now()
@@ -211,19 +211,19 @@ class UsersController extends Controller
     }
     function getClass()
     {
-        $class = DB::table('class')->select('id', 'class_name')->get();
+        $class = DB::table('class')->select('id', 'class_name')->where('school_id', request()->user()->school_id)->get();
         return response()->json([
             'success' => true,
-            'message' => 'Data Users',
+            'message' => 'Data Class',
             'data' => $class,
         ]);
     }
     function getMajor()
     {
-        $class = DB::table('major')->select('id', 'major_name')->get();
+        $class = DB::table('major')->select('id', 'major_name')->where('school_id', request()->user()->school_id)->get();
         return response()->json([
             'success' => true,
-            'message' => 'Data Users',
+            'message' => 'Data Major',
             'data' => $class,
         ]);
     }

@@ -34,7 +34,7 @@ class StudentModel extends Model
     ];
     public static function getStudents()
     {
-        $data = DB::select("select u.*, c.class_name, m.major_name from users u, class c, major m where u.class_id=c.id and u.major_id=m.id");
+        $data = DB::select("select u.*, c.class_name, m.major_name from users u, class c, major m where u.class_id=c.id and u.major_id=m.id and u.school_id = '" . request()->user()->school_id . "'");
         return $data;
     }
     public static function showUserById($id)

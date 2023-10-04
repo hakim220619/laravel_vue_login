@@ -16,4 +16,13 @@ class GeneralController extends Controller
             'data' => $data,
         ]);
     }
+    function getSchoolById($id)
+    {
+        $data = GeneralModel::GetSchoolById($id);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Role',
+            'data' => $data,
+        ]);
+    }
 }
