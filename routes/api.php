@@ -68,7 +68,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/UpdateBillPayment', [BilPaymentController::class, 'update'])->name('billPayment.UpdateBillPayment');
     Route::get('/getMonths', [BilPaymentController::class, 'getMonths'])->name('billPayment.getMonths');
     Route::post('/createPaymentByClass', [BilPaymentController::class, 'createPaymentByClass'])->name('billPayment.createPaymentByClass');
+    Route::post('/createPaymentByStudents', [BilPaymentController::class, 'createPaymentByStudents'])->name('billPayment.createPaymentByStudents');
     Route::post('/createPaymentByClassFree', [BilPaymentController::class, 'createPaymentByClassFree'])->name('billPayment.createPaymentByClassFree');
+    Route::post('/createPaymentByStudentsFree', [BilPaymentController::class, 'createPaymentByStudentsFree'])->name('billPayment.createPaymentByStudentsFree');
     Route::get('/billPaymentById/{id}', [BilPaymentController::class, 'billPaymentById'])->name('billPayment.billPaymentById');
     //Auth
     Route::post('/getUsers', [AuthController::class, 'getUsers'])->name('getUsers');
@@ -86,4 +88,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //General
     Route::get('/GetRole', [GeneralController::class, 'GetRole'])->name('general.GetRole');
     Route::get('/getSchoolById/{id}', [GeneralController::class, 'getSchoolById'])->name('general.getSchoolById');
+    Route::post('/getStudentByClassByMajor', [GeneralController::class, 'getStudentByClassByMajor'])->name('general.getStudentByClassByMajor');
+    Route::post('/getStudentByClassByMajorByIdFree', [GeneralController::class, 'getStudentByClassByMajorByIdFree'])->name('general.getStudentByClassByMajorByIdFree');
 });

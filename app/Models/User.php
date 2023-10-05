@@ -49,7 +49,7 @@ class User extends Authenticatable
 
     public static function getUsers()
     {
-        $query = DB::select("select ROW_NUMBER() OVER(ORDER BY id) as no, u.*, IF( role = 150 , 'Super Admin', IF(role = 170 , 'Admin Sekolah', '') ) AS role_name from users u where u.role != 160");
+        $query = DB::select("select u.*, IF( role = 150 , 'Super Admin', IF(role = 170 , 'Admin Sekolah', '') ) AS role_name from users u where u.role != 160");
         return $query;
     }
     public static function showUserById($id)

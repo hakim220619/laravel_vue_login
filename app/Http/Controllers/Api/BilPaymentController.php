@@ -111,32 +111,71 @@ class BilPaymentController extends Controller
     }
     public function createPaymentByClass(Request $request)
     {
-
-        $getUsers = DB::table('users')->where('school_id', request()->user()->school_id)->where('class_id', $request->class)->where('major_id', $request->major)->get();
-        // dd($getUsers);
-        for ($gu = 0; $gu < count($getUsers); $gu++) {
-            // dd($getUsers[$gu]->id);
-            for ($i = 0; $i < count($request->dataId); $i++) {
-                DB::table('payment')->insert([
-                    'uid' => 'TRX' . rand(000, 999) . date('Hms'),
-                    'school_id' => request()->user()->school_id,
-                    'user_id' => $getUsers[$gu]->id,
-                    'bilPayment_id' => $request->billPayment_id,
-                    'class_id' => $request->class,
-                    'major_id' => $request->major,
-                    'month_id' => $request->dataId[$i],
-                    'years' => $request->years,
-                    'type' => $request->type,
-                    'amount' => $request->data[$i],
-                    'state' => "PENDING",
-                    'created_at' => now()
-                ]);
+        ini_set('max_execution_time', 0);
+        DB::beginTransaction();
+        try {
+            // Queries
+            DB::commit(); // Commit 1
+            $getUsers = DB::table('users')->where('school_id', request()->user()->school_id)->where('class_id', $request->class)->where('major_id', $request->major)->get();
+            // dd($getUsers);
+            for ($gu = 0; $gu < count($getUsers); $gu++) {
+                for ($i = 0; $i < count($request->dataId); $i++) {
+                    DB::table('payment')->insert([
+                        'uid' => 'TRX' . rand(000, 999) . date('Hms'),
+                        'school_id' => request()->user()->school_id,
+                        'user_id' => $getUsers[$gu]->id,
+                        'bilPayment_id' => $request->billPayment_id,
+                        'class_id' => $request->class,
+                        'major_id' => $request->major,
+                        'month_id' => $request->dataId[$i],
+                        'years' => $request->years,
+                        'type' => $request->type,
+                        'amount' => $request->data[$i],
+                        'state' => "PENDING",
+                        'created_at' => now()
+                    ]);
+                }
             }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Create Bill Payment Successs',
+                'data' => count($getUsers)
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => true,
+                'message' => 'Create Bill Payment Failed',
+                'data' => 0
+            ]);
         }
+    }
+    public function createPaymentByStudents(Request $request)
+    {
+
+        // dd($getUsers[$gu]->id);
+        for ($i = 0; $i < count($request->dataId); $i++) {
+            DB::table('payment')->insert([
+                'uid' => 'TRX' . rand(000, 999) . date('Hms'),
+                'school_id' => request()->user()->school_id,
+                'user_id' => $request->user_id,
+                'bilPayment_id' => $request->billPayment_id,
+                'class_id' => $request->class,
+                'major_id' => $request->major,
+                'month_id' => $request->dataId[$i],
+                'years' => $request->years,
+                'type' => $request->type,
+                'amount' => $request->data[$i],
+                'state' => "PENDING",
+                'created_at' => now()
+            ]);
+        }
+
 
         return response()->json([
             'success' => true,
-            'message' => 'Tagihan Berhasil Ditambah',
+            'message' => 'Create Bill Payment Successs',
             // 'data' => $data,
         ]);
     }
@@ -165,7 +204,33 @@ class BilPaymentController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Tagihan Berhasil Ditambah',
+            'message' => 'Create Bill Payment Successs',
+            // 'data' => $data,
+        ]);
+    }
+    public function createPaymentByStudentsFree(Request $request)
+    {
+
+
+
+        DB::table('payment')->insert([
+            'uid' => 'TRX' . rand(000, 999) . date('Hms'),
+            'school_id' => request()->user()->school_id,
+            'user_id' => $request->user_id,
+            'bilPayment_id' => $request->billPayment_id,
+            'class_id' => $request->class,
+            'major_id' => $request->major,
+            'years' => $request->years,
+            'type' => $request->type,
+            'amount' => $request->amount,
+            'state' => "PENDING",
+            'created_at' => now()
+        ]);
+
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Create Bill Payment Successs',
             // 'data' => $data,
         ]);
     }

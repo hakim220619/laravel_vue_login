@@ -249,7 +249,7 @@ class UsersController extends Controller
     function getSchool($id)
     {
         // dd($id);
-        $data = DB::table('school')->select('id', 'name')->where('regency_id', $id)->get();
+        $data = DB::table('school')->select('id', 'school_name')->where('regency_id', $id)->get();
         return response()->json([
             'success' => true,
             'message' => 'Data School',

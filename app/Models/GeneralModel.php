@@ -11,12 +11,27 @@ class GeneralModel extends Model
     use HasFactory;
     public static function GetRole()
     {
-        $query = DB::select("select * from role where state = 'ON' and id != 160");
+        $query = DB::select("select * from role where id != 160");
         return $query;
     }
     public static function GetSchoolById($id)
     {
-        $query = DB::table('school')->where('state', 'ON')->where('id', $id)->first();
+        $query = DB::table('school')->where('id', $id)->first();
+        return $query;
+    }
+    public static function GetStudentByClassByMajor($request)
+    {
+        // dd($request);
+        $query = DB::table('users')->where('class_id', $request['class'])->where('major_id', $request['major'])->where('state', 'ON')->get();
+        return $query;
+    }
+    public static function getStudentByClassByMajorByIdFree($request)
+    {
+        // dd($request);
+        $query = DB::select("select u.full_name, u.id  from users u where u.role = '160' and
+         u.class_id = '" . $request['class'] . "' and u.major_id = '" . $request['major'] . "'  
+         and u.id not in (select p.user_id  from payment p 
+         where p.bilPayment_id = '" . $request['bilPayment_id'] . "' ) ORDER by u.full_name asc");
         return $query;
     }
 }

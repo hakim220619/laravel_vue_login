@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\User;
+use Illuminate\Support\Str;
 use App\Models\StudentModel;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -18,7 +19,7 @@ class StudentImport implements ToModel, WithHeadingRow
      */
     public function model(array $row)
     {
-        ini_set('max_execution_time', 400);
+        ini_set('max_execution_time', 0);
         // dd($row);
         $getIdClass = DB::table('class')->where('class_name', $row['kelas'])->where('school_id', request()->user()->school_id)->first();
         $getIdMajor = DB::table('major')->where('major_name', $row['jurusan'])->where('school_id', request()->user()->school_id)->first();
@@ -28,7 +29,7 @@ class StudentImport implements ToModel, WithHeadingRow
             'nisn' => $row['nisn'],
             'password' => Hash::make(12345678),
             'email' => $row['email_bila_ada'],
-            'full_name' => $row['nama_siswa'],
+            'full_name' => Str::upper($row['nama_siswa']),
             'class_id' => $getIdClass->id,
             'major_id' => $getIdMajor->id,
             'phone' => $row['nomor_whatsapp'],
