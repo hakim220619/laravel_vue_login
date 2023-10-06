@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\BilPaymentModel;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\GeneralModel;
 
 class BilPaymentController extends Controller
 {
@@ -109,22 +110,49 @@ class BilPaymentController extends Controller
             'data' => $data,
         ]);
     }
+    public function UpdatePaymentByIdShow($id)
+    {
+        $data = BilPaymentModel::UpdatePaymentByIdShow($id);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data getNamePayment',
+            'data' => $data,
+        ]);
+    }
+    public function getStudentByBill(Request $request)
+    {
+        $data = BilPaymentModel::getStudentByBill($request->all());
+        // dd($data);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data getNamePayment',
+            'data' => $data,
+        ]);
+    }
     public function createPaymentByClass(Request $request)
     {
         ini_set('max_execution_time', 0);
-        DB::beginTransaction();
+        // DB::beginTransaction();
         try {
             // Queries
-            DB::commit(); // Commit 1
-            $getUsers = DB::table('users')->where('school_id', request()->user()->school_id)->where('class_id', $request->class)->where('major_id', $request->major)->get();
-            // dd($getUsers);
+            // DB::commit(); // Commit 1
+            // $getUsers = DB::table('users')->where('school_id', request()->user()->school_id)->where('class_id', $request->class)->where('major_id', $request->major)->get();
+            $getUsers = GeneralModel::getStudentByClassByMajorByIdFree($request->all());
+            // dd(count($getUsers));
+            if (count($getUsers) == 0) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'All Users have done this bill Payment',
+                    'data' => count($getUsers)
+                ]);
+            }
             for ($gu = 0; $gu < count($getUsers); $gu++) {
                 for ($i = 0; $i < count($request->dataId); $i++) {
                     DB::table('payment')->insert([
                         'uid' => 'TRX' . rand(000, 999) . date('Hms'),
                         'school_id' => request()->user()->school_id,
                         'user_id' => $getUsers[$gu]->id,
-                        'bilPayment_id' => $request->billPayment_id,
+                        'bilPayment_id' => $request->bilPayment_id,
                         'class_id' => $request->class,
                         'major_id' => $request->major,
                         'month_id' => $request->dataId[$i],
@@ -143,10 +171,10 @@ class BilPaymentController extends Controller
                 'data' => count($getUsers)
             ]);
         } catch (\Exception $e) {
-            DB::rollBack();
+            // DB::rollBack();
             return response()->json([
                 'success' => true,
-                'message' => 'Create Bill Payment Failed',
+                'message' => ' Create Bill Payment Failed',
                 'data' => 0
             ]);
         }
@@ -182,16 +210,20 @@ class BilPaymentController extends Controller
     public function createPaymentByClassFree(Request $request)
     {
 
-        $getUsers = DB::table('users')->where('school_id', request()->user()->school_id)->where('class_id', $request->class)->where('major_id', $request->major)->get();
-        // dd($getUsers);
+        $getUsers = GeneralModel::getStudentByClassByMajorByIdFree($request->all());
+        if (count($getUsers) == 0) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Users have done this bill Payment',
+                'data' => count($getUsers)
+            ]);
+        }
         for ($gu = 0; $gu < count($getUsers); $gu++) {
-            // dd($getUsers[$gu]->id);
-
             DB::table('payment')->insert([
                 'uid' => 'TRX' . rand(000, 999) . date('Hms'),
                 'school_id' => request()->user()->school_id,
                 'user_id' => $getUsers[$gu]->id,
-                'bilPayment_id' => $request->billPayment_id,
+                'bilPayment_id' => $request->bilPayment_id,
                 'class_id' => $request->class,
                 'major_id' => $request->major,
                 'years' => $request->years,
@@ -205,14 +237,10 @@ class BilPaymentController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Create Bill Payment Successs',
-            // 'data' => $data,
         ]);
     }
     public function createPaymentByStudentsFree(Request $request)
     {
-
-
-
         DB::table('payment')->insert([
             'uid' => 'TRX' . rand(000, 999) . date('Hms'),
             'school_id' => request()->user()->school_id,

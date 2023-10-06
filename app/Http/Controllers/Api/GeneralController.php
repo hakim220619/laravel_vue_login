@@ -48,4 +48,15 @@ class GeneralController extends Controller
             'data' => $data,
         ]);
     }
+    function getFullNameSearch(Request $request)
+    {
+        // dd($request->all());
+        $data = GeneralModel::getFullNameSearch($request->all());
+        // dd($data);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data Role',
+            'data' => $data,
+        ]);
+    }
 }
