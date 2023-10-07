@@ -13,12 +13,15 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
+            'email' => 'required',
             'password' => 'required',
         ]);
-
         $user = User::where('email', $request->email)->first();
 
+        if ($user == null) {
+            $user = User::where('nisn', $request->email)->first();
+        }
+        // dd($user);
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'success' => false,

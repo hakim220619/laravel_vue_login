@@ -72,8 +72,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/createPaymentByClassFree', [BilPaymentController::class, 'createPaymentByClassFree'])->name('billPayment.createPaymentByClassFree');
     Route::post('/createPaymentByStudentsFree', [BilPaymentController::class, 'createPaymentByStudentsFree'])->name('billPayment.createPaymentByStudentsFree');
     Route::get('/billPaymentById/{id}', [BilPaymentController::class, 'billPaymentById'])->name('billPayment.billPaymentById');
+    Route::get('/getbillPaymentById/{id}', [BilPaymentController::class, 'getbillPaymentById'])->name('billPayment.getbillPaymentById');
+    Route::get('/billPaymentByIdByClass/{id}', [BilPaymentController::class, 'billPaymentByIdByClass'])->name('billPayment.billPaymentByIdByClass');
     Route::get('/UpdatePaymentByIdShow/{id}', [BilPaymentController::class, 'UpdatePaymentByIdShow'])->name('billPayment.UpdatePaymentByIdShow');
+    Route::post('/updatePaymentByStudentsFree', [BilPaymentController::class, 'updatePaymentByStudentsFree'])->name('billPayment.updatePaymentByStudentsFree');
     Route::post('/getStudentByBill', [BilPaymentController::class, 'getStudentByBill'])->name('billPayment.getStudentByBill');
+    Route::post('/getBillPaymentByIdPaymentAll', [BilPaymentController::class, 'getBillPaymentByIdPaymentAll'])->name('billPayment.getBillPaymentByIdPaymentAll');
+    Route::post('/UpdatePaymentByIdByStudents', [BilPaymentController::class, 'UpdatePaymentByIdByStudents'])->name('billPayment.UpdatePaymentByIdByStudents');
 
     //Auth
     Route::post('/getUsers', [AuthController::class, 'getUsers'])->name('getUsers');

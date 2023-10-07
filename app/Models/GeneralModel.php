@@ -40,11 +40,18 @@ class GeneralModel extends Model
     public static function getFullNameSearch($params)
     {
         // dd($params);
+        $addSql = '';
+        if ($params['class'] != 'undefined') {
+            $addSql .= "and p.class_id = '" . $params['class'] . "'";
+        }
+        if ($params['major'] != 'undefined') {
+            $addSql .= "  and p.major_id = '" . $params['major'] . "' ";
+        }
+        // dd(isset($params['class']));
         $query = DB::select("select p.*, u.nisn, u.full_name, bp.bill_name from payment p, users u, bill_payment bp 
         where p.user_id=u.id 
         and p.bilPayment_id=bp.id
-        and p.class_id = '" . $params['class'] . "' 
-        and p.major_id = '" . $params['major'] . "' 
+        $addSql
         and p.bilPayment_id = '" . $params['bilPayment_id'] . "'
         and u.full_name like '%" . $params['filterByName'] . "%' 
         group by p.user_id");

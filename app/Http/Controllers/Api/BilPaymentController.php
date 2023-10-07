@@ -52,37 +52,7 @@ class BilPaymentController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
     public function getYears()
     {
         $data = BilPaymentModel::getYears();
@@ -110,6 +80,26 @@ class BilPaymentController extends Controller
             'data' => $data,
         ]);
     }
+    public function billPaymentByIdByClass($id)
+    {
+        $data = BilPaymentModel::billPaymentByIdByClass($id);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data getNamePayment',
+            'data' => $data,
+        ]);
+    }
+    public function getbillPaymentById($id)
+    {
+        // dd($id);
+        $data = BilPaymentModel::getbillPaymentById($id);
+        // dd($data);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data getNamePayment',
+            'data' => $data,
+        ]);
+    }
     public function UpdatePaymentByIdShow($id)
     {
         $data = BilPaymentModel::UpdatePaymentByIdShow($id);
@@ -129,14 +119,21 @@ class BilPaymentController extends Controller
             'data' => $data,
         ]);
     }
+    public function getBillPaymentByIdPaymentAll(Request $request)
+    {
+        $data = BilPaymentModel::getBillPaymentByIdPaymentAll($request->all());
+        // dd($data);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data getNamePayment',
+            'data' => $data,
+        ]);
+    }
     public function createPaymentByClass(Request $request)
     {
         ini_set('max_execution_time', 0);
         // DB::beginTransaction();
         try {
-            // Queries
-            // DB::commit(); // Commit 1
-            // $getUsers = DB::table('users')->where('school_id', request()->user()->school_id)->where('class_id', $request->class)->where('major_id', $request->major)->get();
             $getUsers = GeneralModel::getStudentByClassByMajorByIdFree($request->all());
             // dd(count($getUsers));
             if (count($getUsers) == 0) {
@@ -188,7 +185,7 @@ class BilPaymentController extends Controller
                 'uid' => 'TRX' . rand(000, 999) . date('Hms'),
                 'school_id' => request()->user()->school_id,
                 'user_id' => $request->user_id,
-                'bilPayment_id' => $request->billPayment_id,
+                'bilPayment_id' => $request->bilPayment_id,
                 'class_id' => $request->class,
                 'major_id' => $request->major,
                 'month_id' => $request->dataId[$i],
@@ -198,6 +195,31 @@ class BilPaymentController extends Controller
                 'state' => "PENDING",
                 'created_at' => now()
             ]);
+        }
+
+
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Create Bill Payment Successs',
+            // 'data' => $data,
+        ]);
+    }
+    public function UpdatePaymentByIdByStudents(Request $request)
+    {
+
+        // dd(count($request->dataId));
+        for ($i = 0; $i < count($request->dataId); $i++) {
+            // dd($request->data[$i]);
+            DB::table('payment')
+                ->where('user_id', $request->user_id)
+                ->where('bilPayment_id', $request->bilPayment_id)
+                ->where('type', $request->type)
+                ->where('month_id', $request->dataId[$i])
+                ->update([
+                    'amount' => $request->data[$i],
+                    'updated_at' => now()
+                ]);
         }
 
 
@@ -259,6 +281,20 @@ class BilPaymentController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Create Bill Payment Successs',
+            // 'data' => $data,
+        ]);
+    }
+    public function updatePaymentByStudentsFree(Request $request)
+    {
+        DB::table('payment')
+            ->where('id', $request->idPayment)
+            ->update([
+                'amount' => $request->amount,
+                'updated_at' => now()
+            ]);
+        return response()->json([
+            'success' => true,
+            'message' => 'Update Bill Payment Successs',
             // 'data' => $data,
         ]);
     }
