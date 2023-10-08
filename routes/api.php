@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\BilPaymentController;
 use App\Http\Controllers\Api\ClassController;
 use App\Http\Controllers\Api\GeneralController;
 use App\Http\Controllers\Api\MajorController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\SettingController;
 use App\Http\Controllers\Api\StudentsController;
 use App\Http\Controllers\Api\UsersController;
@@ -99,4 +100,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/getStudentByClassByMajor', [GeneralController::class, 'getStudentByClassByMajor'])->name('general.getStudentByClassByMajor');
     Route::post('/getStudentByClassByMajorByIdFree', [GeneralController::class, 'getStudentByClassByMajorByIdFree'])->name('general.getStudentByClassByMajorByIdFree');
     Route::post('/getFullNameSearch', [GeneralController::class, 'getFullNameSearch'])->name('billPayment.getFullNameSearch');
+
+    //payment
+
+    Route::get('/getPaymentByStudent', [PaymentController::class, 'getPaymentByStudent'])->name('payment.getPaymentByStudent');
+    Route::get('/getBillMonthByIdByStudents/{id}', [PaymentController::class, 'getBillMonthByIdByStudents'])->name('payment.getBillMonthByIdByStudents');
 });
